@@ -16,8 +16,5 @@ COPY . /tmp/ovos-bus
 RUN pip3 install /tmp/ovos-bus
 
 
-# TODO remove this, missing dependency in ovos-core
-RUN pip3 install python-dateutil ovos-utils==0.0.21a1
-
 USER mycroft
 ENTRYPOINT mycroft-messagebus
