@@ -1,1 +1,1 @@
-ovos-core~=0.0.2a41[bus]
+ovos-core[bus]~=0.0.2a41
