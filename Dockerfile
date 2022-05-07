@@ -1,4 +1,4 @@
-FROM openvoiceos/core:latest
+FROM openvoiceos/core:dev
 
 COPY . /tmp/ovos-bus
 RUN pip3 install /tmp/ovos-bus
