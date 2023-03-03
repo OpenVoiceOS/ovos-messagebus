@@ -18,13 +18,10 @@ The message bus facilitates inter-process communication between mycroft-core
 processes. It implements a websocket server so can also be used by external
 systems to integrate with the Mycroft system.
 """
-from mycroft.util import (
-    reset_sigint_handler,
-    create_daemon,
-    wait_for_exit_signal, init_service_logger
-)
+
+from ovos_utils import create_daemon, wait_for_exit_signal
 from ovos_messagebus.load_config import load_message_bus_config
-from ovos_utils.log import LOG
+from ovos_utils.log import LOG, init_service_logger
 from tornado import web, ioloop
 
 from ovos_messagebus.event_handler import MessageBusEventHandler
@@ -45,7 +42,6 @@ def on_stopping():
 def main(ready_hook=on_ready, error_hook=on_error, stopping_hook=on_stopping):
     init_service_logger("bus")
     LOG.info('Starting message bus service...')
-    reset_sigint_handler()
     config = load_message_bus_config()
     routes = [(config.route, MessageBusEventHandler)]
     application = web.Application(routes)
