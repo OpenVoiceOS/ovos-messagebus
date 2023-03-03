@@ -33,8 +33,18 @@ setup(
     name='ovos-bus',
     version="0.0.2",
     license='Apache-2.0',
-    url='https://github.com/OpenVoiceOS/ovos-core',
-    description='ovos-core metapackage for bus daemon',
+    url='https://github.com/OpenVoiceOS/ovos-bus',
+    description='ovos-core reference python bus daemon',
     include_package_data=True,
-    install_requires=required('requirements.txt')
+    install_requires=required('requirements.txt'),
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: Apache Software License",
+    ],
+    entry_points={
+        'console_scripts': [
+            'ovos-messagebus=ovos_messagebus.__main__:main'
+        ]
+    }
 )
