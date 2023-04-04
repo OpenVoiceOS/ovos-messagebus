@@ -1,17 +1,17 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/ovos-bus/tree/HEAD)
+## [V0.0.2a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.2a1) (2023-04-04)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-bus/compare/1f1f7d2fd3dd304379f23274dff62b3151fc68a3...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/1f1f7d2fd3dd304379f23274dff62b3151fc68a3...V0.0.2a1)
 
 **Implemented enhancements:**
 
-- Bump ovos utils [\#2](https://github.com/OpenVoiceOS/ovos-bus/pull/2) ([JarbasAl](https://github.com/JarbasAl))
-- extract from core [\#1](https://github.com/OpenVoiceOS/ovos-bus/pull/1) ([JarbasAl](https://github.com/JarbasAl))
+- Bump ovos utils [\#2](https://github.com/OpenVoiceOS/ovos-messagebus/pull/2) ([JarbasAl](https://github.com/JarbasAl))
+- extract from core [\#1](https://github.com/OpenVoiceOS/ovos-messagebus/pull/1) ([JarbasAl](https://github.com/JarbasAl))
 
 **Fixed bugs:**
 
-- bump ovos-utils - fix/circular\_import [\#3](https://github.com/OpenVoiceOS/ovos-bus/pull/3) ([JarbasAl](https://github.com/JarbasAl))
+- bump ovos-utils - fix/circular\_import [\#3](https://github.com/OpenVoiceOS/ovos-messagebus/pull/3) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
