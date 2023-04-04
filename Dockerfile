@@ -1,7 +1,7 @@
 FROM ghcr.io/openvoiceos/core:dev
 
-COPY . /tmp/ovos-bus
-RUN pip3 install /tmp/ovos-bus
+COPY . /tmp/ovos-messagebus
+RUN pip3 install /tmp/ovos-messagebus
 
 USER mycroft
-ENTRYPOINT mycroft-messagebus
+ENTRYPOINT ovos-messagebus

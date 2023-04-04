@@ -7,7 +7,7 @@ on:
     branches:
       - dev
     paths-ignore:
-      - 'ovos_bus/version.py'
+      - 'ovos_messagebus/version.py'
       - 'test/**'
       - 'examples/**'
       - '.github/**'

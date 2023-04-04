@@ -35,7 +35,7 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 def get_version():
     """ Find the version of ovos-core"""
     version = None
-    version_file = os.path.join(BASEDIR, 'ovos_bus', 'version.py')
+    version_file = os.path.join(BASEDIR, 'ovos_messagebus', 'version.py')
     major, minor, build, alpha = (None, None, None, None)
     with open(version_file) as f:
         for line in f:
@@ -58,10 +58,10 @@ def get_version():
 
 
 setup(
-    name='ovos-bus',
+    name='ovos-messagebus',
     version=get_version(),
     license='Apache-2.0',
-    url='https://github.com/OpenVoiceOS/ovos-bus',
+    url='https://github.com/OpenVoiceOS/ovos-messagebus',
     description='ovos-core reference python bus daemon',
     include_package_data=True,
     install_requires=required('requirements.txt'),
