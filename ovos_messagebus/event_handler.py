@@ -17,7 +17,7 @@ import json
 import sys
 import traceback
 
-from mycroft_bus_client import Message
+from ovos_bus_client import Message
 from ovos_utils.log import LOG
 from pyee import EventEmitter
 from tornado.websocket import WebSocketHandler
