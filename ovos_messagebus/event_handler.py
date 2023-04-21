@@ -17,7 +17,7 @@ import json
 import sys
 import traceback
 
-from ovos_utils.messagebus import Message
+from ovos_utils.messagebus import FakeMessage as Message
 from ovos_utils.log import LOG
 from pyee import EventEmitter
 from tornado.websocket import WebSocketHandler
