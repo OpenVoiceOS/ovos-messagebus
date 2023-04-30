@@ -1,5 +1,9 @@
 # Changelog
 
+## [V0.0.2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.2) (2023-04-29)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.2a6...V0.0.2)
+
 ## [V0.0.2a6](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.2a6) (2023-04-21)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.2a5...V0.0.2a6)
