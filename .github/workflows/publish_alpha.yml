@@ -60,3 +60,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{secrets.PYPI_TOKEN}}
+  build_and_publish_docker:
+    needs: build_and_publish
+    uses: neongeckocom/.github/.github/workflows/publish_docker.yml@master
+    secrets: inherit
