@@ -50,16 +50,17 @@ jobs:
       - name: Install core repo
         run: |
           pip install .
-      - name: Install test dependencies
-        run: |
-          pip install -r requirements/tests.txt
-      - name: Run unittests
-        run: |
-          pytest --cov=ovos_messagebus --cov-report xml test/unittests
-          # NOTE: additional pytest invocations should also add the --cov-append flag
-          #       or they will overwrite previous invocations' coverage reports
-          #       (for an example, see OVOS Skill Manager's workflow)
-      - name: Upload coverage
-        env:
-          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
-        uses: codecov/codecov-action@v2
+# TODO: Implement unit tests
+#      - name: Install test dependencies
+#        run: |
+#          pip install -r requirements/tests.txt
+#      - name: Run unittests
+#        run: |
+#          pytest --cov=ovos_messagebus --cov-report xml test/unittests
+#          # NOTE: additional pytest invocations should also add the --cov-append flag
+#          #       or they will overwrite previous invocations' coverage reports
+#          #       (for an example, see OVOS Skill Manager's workflow)
+#      - name: Upload coverage
+#        env:
+#          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+#        uses: codecov/codecov-action@v2

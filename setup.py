@@ -29,8 +29,6 @@ def required(requirements_file):
                 if pkg.strip() and not pkg.startswith("#")]
 
 
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
-
 
 def get_version():
     """ Find the version of ovos-core"""
@@ -64,6 +62,7 @@ setup(
     url='https://github.com/OpenVoiceOS/ovos-messagebus',
     description='ovos-core reference python bus daemon',
     include_package_data=True,
+    packages=["ovos_messagebus"],
     install_requires=required('requirements.txt'),
     classifiers=[
         "Development Status :: 4 - Beta",
