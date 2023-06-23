@@ -1,33 +1,18 @@
 # Changelog
 
-## [0.0.3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.3) (2023-05-24)
+## [0.0.4a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a1) (2023-06-23)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3a2...0.0.3)
-
-**Merged pull requests:**
-
-- Replace docker container actions [\#10](https://github.com/OpenVoiceOS/ovos-messagebus/pull/10) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [V0.0.3a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.3a2) (2023-05-24)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3a1...V0.0.3a2)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3...0.0.4a1)
 
 **Fixed bugs:**
 
+- AttributeError: 'MemoryTempfile' object has no attribute 'tempdir' [\#12](https://github.com/OpenVoiceOS/ovos-messagebus/issues/12)
 - Killed if previous bus.pid exists [\#4](https://github.com/OpenVoiceOS/ovos-messagebus/issues/4)
-
-**Closed issues:**
-
-- Error when running [\#7](https://github.com/OpenVoiceOS/ovos-messagebus/issues/7)
 
 **Merged pull requests:**
 
-- Update GitHub automation [\#9](https://github.com/OpenVoiceOS/ovos-messagebus/pull/9) ([NeonDaniel](https://github.com/NeonDaniel))
-- Update dependencies to stable versions [\#8](https://github.com/OpenVoiceOS/ovos-messagebus/pull/8) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [V0.0.3a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.3a1) (2023-04-30)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.2...V0.0.3a1)
+- Remove PIDLock to fix \#4 [\#13](https://github.com/OpenVoiceOS/ovos-messagebus/pull/13) ([goldyfruit](https://github.com/goldyfruit))
+- Replace docker container actions [\#10](https://github.com/OpenVoiceOS/ovos-messagebus/pull/10) ([NeonDaniel](https://github.com/NeonDaniel))
 
 
 
