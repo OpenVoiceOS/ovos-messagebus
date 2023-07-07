@@ -34,11 +34,17 @@ class MessageBusEventHandler(WebSocketHandler):
         self.emitter.on(event_name, handler)
 
     def on_message(self, message):
-        LOG.debug(message)
+
         try:
             deserialized_message = Message.deserialize(message)
         except Exception:
             return
+
+        filter_ogs = ["gui.status.request"]
+        if deserialized_message.msg_type not in filter_ogs:
+            LOG.debug(deserialized_message.msg_type +
+                      f' source: {deserialized_message.context.get("source", [])}' +
+                      f' destination: {deserialized_message.context.get("destination", [])}')
 
         try:
             self.emitter.emit(deserialized_message.msg_type,
