@@ -33,6 +33,10 @@ class MessageBusEventHandler(WebSocketHandler):
     def on(self, event_name, handler):
         self.emitter.on(event_name, handler)
 
+    @property
+    def max_message_size(self) -> int:
+        return 100 * 1024 * 1024
+
     def on_message(self, message):
 
         try:
