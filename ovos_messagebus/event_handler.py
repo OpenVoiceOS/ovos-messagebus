@@ -44,7 +44,7 @@ class MessageBusEventHandler(WebSocketHandler):
         except Exception:
             return
 
-        filter_ogs = ["gui.status.request"]
+        filter_ogs = ["gui.status.request", "gui.page.upload"]
         if deserialized_message.msg_type not in filter_ogs:
             LOG.debug(deserialized_message.msg_type +
                       f' source: {deserialized_message.context.get("source", [])}' +
