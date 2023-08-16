@@ -19,6 +19,7 @@ import traceback
 
 from ovos_utils.messagebus import FakeMessage as Message
 from ovos_utils.log import LOG
+from ovos_config import Configuration
 from pyee import EventEmitter
 from tornado.websocket import WebSocketHandler
 
@@ -35,7 +36,7 @@ class MessageBusEventHandler(WebSocketHandler):
 
     @property
     def max_message_size(self) -> int:
-        return 100 * 1024 * 1024
+        return Configuration().get("websocket", {}).get("max_msg_size", 10) * 1024 * 1024
 
     def on_message(self, message):
 
