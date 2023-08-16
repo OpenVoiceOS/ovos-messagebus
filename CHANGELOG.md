@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.0.4a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a1) (2023-06-23)
+## [0.0.4a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a2) (2023-08-16)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3...0.0.4a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a1...0.0.4a2)
+
+**Closed issues:**
+
+- Consider making this configurable with a default value.  maybe `Configuration["logs"]["excluded_messages"]`? [\#16](https://github.com/OpenVoiceOS/ovos-messagebus/issues/16)
+
+## [V0.0.4a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a1) (2023-06-23)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3...V0.0.4a1)
 
 **Fixed bugs:**
 
