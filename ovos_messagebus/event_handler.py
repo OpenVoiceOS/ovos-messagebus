@@ -22,6 +22,7 @@ from ovos_utils.log import LOG
 from ovos_config import Configuration
 from pyee import EventEmitter
 from tornado.websocket import WebSocketHandler
+from ovos_bus_client.session import SessionManager
 
 client_connections = []
 
@@ -50,6 +51,8 @@ class MessageBusEventHandler(WebSocketHandler):
             LOG.debug(deserialized_message.msg_type +
                       f' source: {deserialized_message.context.get("source", [])}' +
                       f' destination: {deserialized_message.context.get("destination", [])}')
+            LOG.debug(str(deserialized_message.data))
+            LOG.debug(SessionManager.get(deserialized_message).serialize())
 
         try:
             self.emitter.emit(deserialized_message.msg_type,
