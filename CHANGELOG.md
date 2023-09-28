@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.4a4](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a4) (2023-09-28)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a3...0.0.4a4)
+
+**Merged pull requests:**
+
+- \[requirements\] Add missing ovos-bus-client [\#18](https://github.com/OpenVoiceOS/ovos-messagebus/pull/18) ([goldyfruit](https://github.com/goldyfruit))
+
+## [V0.0.4a3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a3) (2023-09-27)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a2...V0.0.4a3)
+
 ## [V0.0.4a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a2) (2023-08-16)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a1...V0.0.4a2)
