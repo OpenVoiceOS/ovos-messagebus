@@ -50,9 +50,8 @@ class MessageBusEventHandler(WebSocketHandler):
         if deserialized_message.msg_type not in filter_ogs:
             LOG.debug(deserialized_message.msg_type +
                       f' source: {deserialized_message.context.get("source", [])}' +
-                      f' destination: {deserialized_message.context.get("destination", [])}')
-            #LOG.debug(str(deserialized_message.data))
-            LOG.debug("SESSION: " + SessionManager.get(deserialized_message).serialize())
+                      f' destination: {deserialized_message.context.get("destination", [])}\n'
+                      f'SESSION: {SessionManager.get(deserialized_message).serialize()}')
 
         try:
             self.emitter.emit(deserialized_message.msg_type,
