@@ -51,8 +51,8 @@ class MessageBusEventHandler(WebSocketHandler):
             LOG.debug(deserialized_message.msg_type +
                       f' source: {deserialized_message.context.get("source", [])}' +
                       f' destination: {deserialized_message.context.get("destination", [])}')
-            LOG.debug(str(deserialized_message.data))
-            LOG.debug(SessionManager.get(deserialized_message).serialize())
+            #LOG.debug(str(deserialized_message.data))
+            LOG.debug("SESSION: " + SessionManager.get(deserialized_message).serialize())
 
         try:
             self.emitter.emit(deserialized_message.msg_type,
