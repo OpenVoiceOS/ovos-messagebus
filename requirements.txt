@@ -1,4 +1,4 @@
 tornado~=6.0, >=6.0.3
-ovos-bus-client~=0.0, >=0.0.5
-ovos-utils~=0.0, >=0.0.32
-ovos-config~=0.0,>=0.0.8
+ovos-bus-client~=0.0, >=0.0.7
+ovos-utils~=0.0, >=0.0.37
+ovos-config~=0.0,>=0.0.12
