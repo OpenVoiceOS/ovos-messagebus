@@ -1,8 +1,20 @@
 # Changelog
 
-## [0.0.4a5](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a5) (2023-10-17)
+## [0.0.4a6](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a6) (2023-12-29)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a4...0.0.4a5)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a5...0.0.4a6)
+
+**Closed issues:**
+
+- This happens when I ctrl+c a skill launched by ovos-skill-launcher [\#14](https://github.com/OpenVoiceOS/ovos-messagebus/issues/14)
+
+**Merged pull requests:**
+
+- Update requirements.txt [\#20](https://github.com/OpenVoiceOS/ovos-messagebus/pull/20) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.4a5](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a5) (2023-10-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a4...V0.0.4a5)
 
 **Fixed bugs:**
 
