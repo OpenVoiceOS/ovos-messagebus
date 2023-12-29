@@ -17,7 +17,7 @@ import json
 import sys
 import traceback
 
-from ovos_utils.messagebus import FakeMessage as Message
+from ovos_utils.fakebus import Message
 from ovos_utils.log import LOG
 from ovos_config import Configuration
 from pyee import EventEmitter
