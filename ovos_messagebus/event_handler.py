@@ -65,7 +65,8 @@ class MessageBusEventHandler(WebSocketHandler):
             client.write_message(message)
 
     def open(self):
-        self.write_message(Message("connected").serialize())
+        self.write_message(Message("connected",
+                                   context={"session": {"session_id": "default"}}).serialize())
         client_connections.append(self)
 
     def on_close(self):
