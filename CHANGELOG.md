@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.0.4a8](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a8) (2023-12-30)
+## [V0.0.4a8](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a8) (2023-12-30)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a7...0.0.4a8)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a7...V0.0.4a8)
 
 **Fixed bugs:**
 
