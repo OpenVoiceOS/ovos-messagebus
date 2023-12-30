@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.0.4a7](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a7) (2023-12-29)
+## [0.0.4a8](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.4a8) (2023-12-30)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a6...0.0.4a7)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a7...0.0.4a8)
+
+**Fixed bugs:**
+
+- fix/log\_spam [\#22](https://github.com/OpenVoiceOS/ovos-messagebus/pull/22) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.4a7](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a7) (2023-12-29)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a6...V0.0.4a7)
 
 **Merged pull requests:**
 
