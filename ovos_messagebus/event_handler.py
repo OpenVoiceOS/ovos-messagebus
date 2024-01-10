@@ -17,10 +17,12 @@ import json
 import sys
 import traceback
 
-from ovos_utils.messagebus import FakeMessage as Message
+from ovos_utils.fakebus import Message
 from ovos_utils.log import LOG
+from ovos_config import Configuration
 from pyee import EventEmitter
 from tornado.websocket import WebSocketHandler
+from ovos_bus_client.session import SessionManager
 
 client_connections = []
 
@@ -33,12 +35,23 @@ class MessageBusEventHandler(WebSocketHandler):
     def on(self, event_name, handler):
         self.emitter.on(event_name, handler)
 
+    @property
+    def max_message_size(self) -> int:
+        return Configuration().get("websocket", {}).get("max_msg_size", 10) * 1024 * 1024
+
     def on_message(self, message):
-        LOG.debug(message)
+
         try:
             deserialized_message = Message.deserialize(message)
         except Exception:
             return
+
+        filter_ogs = ["gui.status.request", "gui.page.upload"]
+        if deserialized_message.msg_type not in filter_ogs:
+            LOG.debug(deserialized_message.msg_type +
+                      f' source: {deserialized_message.context.get("source", [])}' +
+                      f' destination: {deserialized_message.context.get("destination", [])}\n'
+                      f'SESSION: {SessionManager.get(deserialized_message).serialize()}')
 
         try:
             self.emitter.emit(deserialized_message.msg_type,
@@ -52,7 +65,8 @@ class MessageBusEventHandler(WebSocketHandler):
             client.write_message(message)
 
     def open(self):
-        self.write_message(Message("connected").serialize())
+        self.write_message(Message("connected",
+                                   context={"session": {"session_id": "default"}}).serialize())
         client_connections.append(self)
 
     def on_close(self):

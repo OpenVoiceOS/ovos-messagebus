@@ -1,33 +1,74 @@
 # Changelog
 
-## [0.0.3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.3) (2023-05-24)
+## [V0.0.4a8](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a8) (2023-12-30)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3a2...0.0.3)
-
-**Merged pull requests:**
-
-- Replace docker container actions [\#10](https://github.com/OpenVoiceOS/ovos-messagebus/pull/10) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [V0.0.3a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.3a2) (2023-05-24)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3a1...V0.0.3a2)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a7...V0.0.4a8)
 
 **Fixed bugs:**
 
-- Killed if previous bus.pid exists [\#4](https://github.com/OpenVoiceOS/ovos-messagebus/issues/4)
+- fix/log\_spam [\#22](https://github.com/OpenVoiceOS/ovos-messagebus/pull/22) ([JarbasAl](https://github.com/JarbasAl))
 
-**Closed issues:**
+## [V0.0.4a7](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a7) (2023-12-29)
 
-- Error when running [\#7](https://github.com/OpenVoiceOS/ovos-messagebus/issues/7)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a6...V0.0.4a7)
 
 **Merged pull requests:**
 
-- Update GitHub automation [\#9](https://github.com/OpenVoiceOS/ovos-messagebus/pull/9) ([NeonDaniel](https://github.com/NeonDaniel))
-- Update dependencies to stable versions [\#8](https://github.com/OpenVoiceOS/ovos-messagebus/pull/8) ([NeonDaniel](https://github.com/NeonDaniel))
+- packaging/update\_imports [\#21](https://github.com/OpenVoiceOS/ovos-messagebus/pull/21) ([JarbasAl](https://github.com/JarbasAl))
 
-## [V0.0.3a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.3a1) (2023-04-30)
+## [V0.0.4a6](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a6) (2023-12-29)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.2...V0.0.3a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a5...V0.0.4a6)
+
+**Closed issues:**
+
+- This happens when I ctrl+c a skill launched by ovos-skill-launcher [\#14](https://github.com/OpenVoiceOS/ovos-messagebus/issues/14)
+
+**Merged pull requests:**
+
+- Update requirements.txt [\#20](https://github.com/OpenVoiceOS/ovos-messagebus/pull/20) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.4a5](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a5) (2023-10-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a4...V0.0.4a5)
+
+**Fixed bugs:**
+
+- log tweaks [\#19](https://github.com/OpenVoiceOS/ovos-messagebus/pull/19) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.4a4](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a4) (2023-09-28)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a3...V0.0.4a4)
+
+**Merged pull requests:**
+
+- \[requirements\] Add missing ovos-bus-client [\#18](https://github.com/OpenVoiceOS/ovos-messagebus/pull/18) ([goldyfruit](https://github.com/goldyfruit))
+
+## [V0.0.4a3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a3) (2023-09-27)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a2...V0.0.4a3)
+
+## [V0.0.4a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a2) (2023-08-16)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4a1...V0.0.4a2)
+
+**Closed issues:**
+
+- Consider making this configurable with a default value.  maybe `Configuration["logs"]["excluded_messages"]`? [\#16](https://github.com/OpenVoiceOS/ovos-messagebus/issues/16)
+
+## [V0.0.4a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V0.0.4a1) (2023-06-23)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.3...V0.0.4a1)
+
+**Fixed bugs:**
+
+- AttributeError: 'MemoryTempfile' object has no attribute 'tempdir' [\#12](https://github.com/OpenVoiceOS/ovos-messagebus/issues/12)
+- Killed if previous bus.pid exists [\#4](https://github.com/OpenVoiceOS/ovos-messagebus/issues/4)
+
+**Merged pull requests:**
+
+- Remove PIDLock to fix \#4 [\#13](https://github.com/OpenVoiceOS/ovos-messagebus/pull/13) ([goldyfruit](https://github.com/goldyfruit))
+- Replace docker container actions [\#10](https://github.com/OpenVoiceOS/ovos-messagebus/pull/10) ([NeonDaniel](https://github.com/NeonDaniel))
 
 
 
