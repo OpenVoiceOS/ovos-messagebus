@@ -21,8 +21,12 @@ under mycroft.conf
     "ssl": false,
     // in mycroft-core all skills share a bus, this allows malicious skills
     // to manipulate it and affect other skills, this option ensures each skill
-    // gets it's own websocket connection
-    "shared_connection": true
+    // gets its own websocket connection
+    "shared_connection": true,
+    // filter out messages of certain types
+    "filter": false,
+    // which messages to filter if filter is enabled
+    "filter_ogs": ["gui.status.request", "gui.page.upload"]
   }
 }
 ```
