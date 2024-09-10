@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- chore:semver\_versioning [\#31](https://github.com/OpenVoiceOS/ovos-messagebus/pull/31) ([JarbasAl](https://github.com/JarbasAl))
 - chore:semver\_automations [\#30](https://github.com/OpenVoiceOS/ovos-messagebus/pull/30) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [V](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V) (2024-03-10)
