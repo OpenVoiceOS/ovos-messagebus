@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/ovos-messagebus/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V...HEAD)
+
+**Merged pull requests:**
+
+- chore:semver\_automations [\#30](https://github.com/OpenVoiceOS/ovos-messagebus/pull/30) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V) (2024-03-10)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4...V)
 
 **Merged pull requests:**
 
