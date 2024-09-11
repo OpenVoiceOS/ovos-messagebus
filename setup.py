@@ -54,6 +54,8 @@ def get_version():
         version += f"a{alpha}"
     return version
 
+with open(os.path.join(BASEDIR, "README.md"), "r") as f:
+    long_description = f.read()
 
 setup(
     name='ovos-messagebus',
@@ -61,6 +63,8 @@ setup(
     license='Apache-2.0',
     url='https://github.com/OpenVoiceOS/ovos-messagebus',
     description='ovos-core reference python bus daemon',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     include_package_data=True,
     packages=["ovos_messagebus"],
     install_requires=required('requirements.txt'),
