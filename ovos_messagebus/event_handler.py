@@ -36,30 +36,44 @@ class MessageBusEventHandler(WebSocketHandler):
         self.emitter.on(event_name, handler)
 
     @property
+    def filter(self) -> bool:
+        return Configuration().get("websocket", {}).get("filter", False)
+
+    @property
+    def filter_logs(self) -> list:
+        return Configuration().get("websocket", {}).get("filter_logs", ["gui.status.request", "gui.page.upload"])
+
+    @property
     def max_message_size(self) -> int:
         return Configuration().get("websocket", {}).get("max_msg_size", 10) * 1024 * 1024
 
     def on_message(self, message):
+        if not self.filter:
+            try:
+                self.emitter.emit(message)
+            except Exception as e:
+                LOG.exception(e)
+                traceback.print_exc(file=sys.stdout)
+                pass
+        else:
+            try:
+                deserialized_message = Message.deserialize(message)
+            except Exception:
+                return
 
-        try:
-            deserialized_message = Message.deserialize(message)
-        except Exception:
-            return
+            if deserialized_message.msg_type not in self.filter_logs:
+                LOG.debug(deserialized_message.msg_type +
+                        f' source: {deserialized_message.context.get("source", [])}' +
+                        f' destination: {deserialized_message.context.get("destination", [])}\n'
+                        f'SESSION: {SessionManager.get(deserialized_message).serialize()}')
 
-        filter_ogs = ["gui.status.request", "gui.page.upload"]
-        if deserialized_message.msg_type not in filter_ogs:
-            LOG.debug(deserialized_message.msg_type +
-                      f' source: {deserialized_message.context.get("source", [])}' +
-                      f' destination: {deserialized_message.context.get("destination", [])}\n'
-                      f'SESSION: {SessionManager.get(deserialized_message).serialize()}')
-
-        try:
-            self.emitter.emit(deserialized_message.msg_type,
-                              deserialized_message)
-        except Exception as e:
-            LOG.exception(e)
-            traceback.print_exc(file=sys.stdout)
-            pass
+            try:
+                self.emitter.emit(deserialized_message.msg_type,
+                                deserialized_message)
+            except Exception as e:
+                LOG.exception(e)
+                traceback.print_exc(file=sys.stdout)
+                pass
 
         for client in client_connections:
             client.write_message(message)
