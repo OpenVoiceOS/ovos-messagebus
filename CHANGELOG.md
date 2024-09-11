@@ -1,11 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/ovos-messagebus/tree/HEAD)
+## [0.0.6a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.6a1) (2024-09-11)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V...0.0.6a1)
 
 **Merged pull requests:**
 
+- fix:readme\_full\_path [\#32](https://github.com/OpenVoiceOS/ovos-messagebus/pull/32) ([JarbasAl](https://github.com/JarbasAl))
 - chore:semver\_versioning [\#31](https://github.com/OpenVoiceOS/ovos-messagebus/pull/31) ([JarbasAl](https://github.com/JarbasAl))
 - chore:semver\_automations [\#30](https://github.com/OpenVoiceOS/ovos-messagebus/pull/30) ([JarbasAl](https://github.com/JarbasAl))
 
