@@ -40,8 +40,8 @@ class MessageBusEventHandler(WebSocketHandler):
         return Configuration().get("websocket", {}).get("filter", False)
 
     @property
-    def filter_ogs(self) -> list:
-        return Configuration().get("websocket", {}).get("filter_ogs", ["gui.status.request", "gui.page.upload"])
+    def filter_logs(self) -> list:
+        return Configuration().get("websocket", {}).get("filter_logs", ["gui.status.request", "gui.page.upload"])
 
     @property
     def max_message_size(self) -> int:
@@ -61,7 +61,7 @@ class MessageBusEventHandler(WebSocketHandler):
             except Exception:
                 return
 
-            if deserialized_message.msg_type not in self.filter_ogs:
+            if deserialized_message.msg_type not in self.filter_logs:
                 LOG.debug(deserialized_message.msg_type +
                         f' source: {deserialized_message.context.get("source", [])}' +
                         f' destination: {deserialized_message.context.get("destination", [])}\n'
