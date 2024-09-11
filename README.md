@@ -23,7 +23,7 @@ under mycroft.conf
     // to manipulate it and affect other skills, this option ensures each skill
     // gets its own websocket connection
     "shared_connection": true,
-    // filter out messages of certain types
+    // filter out messages of certain types from the bus logs
     "filter": false,
     // which messages to filter if filter is enabled
     "filter_logs": ["gui.status.request", "gui.page.upload"]
