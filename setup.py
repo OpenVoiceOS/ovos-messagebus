@@ -54,7 +54,7 @@ def get_version():
         version += f"a{alpha}"
     return version
 
-with open("README.md", "r") as f:
+with open(os.path.join(BASEDIR, "README.md"), "r") as f:
     long_description = f.read()
 
 setup(
