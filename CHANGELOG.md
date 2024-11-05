@@ -1,22 +1,17 @@
 # Changelog
 
-## [0.0.6a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.6a1) (2024-09-11)
+## [0.0.7a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.7a1) (2024-11-05)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V...0.0.6a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.6...0.0.7a1)
 
-**Merged pull requests:**
+**Closed issues:**
 
-- fix:readme\_full\_path [\#32](https://github.com/OpenVoiceOS/ovos-messagebus/pull/32) ([JarbasAl](https://github.com/JarbasAl))
-- chore:semver\_versioning [\#31](https://github.com/OpenVoiceOS/ovos-messagebus/pull/31) ([JarbasAl](https://github.com/JarbasAl))
-- chore:semver\_automations [\#30](https://github.com/OpenVoiceOS/ovos-messagebus/pull/30) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V](https://github.com/OpenVoiceOS/ovos-messagebus/tree/V) (2024-03-10)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/V0.0.4...V)
+- Add configuration option for filtered logs [\#24](https://github.com/OpenVoiceOS/ovos-messagebus/issues/24)
 
 **Merged pull requests:**
 
-- chore\(docs\): add a long description to PyPi [\#28](https://github.com/OpenVoiceOS/ovos-messagebus/pull/28) ([mikejgray](https://github.com/mikejgray))
+- fix: allow latest bus client version [\#34](https://github.com/OpenVoiceOS/ovos-messagebus/pull/34) ([JarbasAl](https://github.com/JarbasAl))
+- feat\(performance\): configurable filter [\#29](https://github.com/OpenVoiceOS/ovos-messagebus/pull/29) ([mikejgray](https://github.com/mikejgray))
 
 
 
