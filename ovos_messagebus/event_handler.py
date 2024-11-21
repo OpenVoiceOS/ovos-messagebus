@@ -17,12 +17,12 @@ import json
 import sys
 import traceback
 
-from ovos_utils.fakebus import Message
-from ovos_utils.log import LOG
+from ovos_bus_client.message import Message
+from ovos_bus_client.session import SessionManager
 from ovos_config import Configuration
+from ovos_utils.log import LOG
 from pyee import EventEmitter
 from tornado.websocket import WebSocketHandler
-from ovos_bus_client.session import SessionManager
 
 client_connections = []
 
@@ -63,13 +63,12 @@ class MessageBusEventHandler(WebSocketHandler):
 
             if deserialized_message.msg_type not in self.filter_logs:
                 LOG.debug(deserialized_message.msg_type +
-                        f' source: {deserialized_message.context.get("source", [])}' +
-                        f' destination: {deserialized_message.context.get("destination", [])}\n'
-                        f'SESSION: {SessionManager.get(deserialized_message).serialize()}')
+                          f' source: {deserialized_message.context.get("source", [])}' +
+                          f' destination: {deserialized_message.context.get("destination", [])}\n'
+                          f'SESSION: {SessionManager.get(deserialized_message).serialize()}')
 
             try:
-                self.emitter.emit(deserialized_message.msg_type,
-                                deserialized_message)
+                self.emitter.emit(deserialized_message.msg_type, deserialized_message)
             except Exception as e:
                 LOG.exception(e)
                 traceback.print_exc(file=sys.stdout)
