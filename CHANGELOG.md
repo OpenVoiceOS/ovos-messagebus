@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.0.9a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.9a1) (2025-03-19)
+## [0.0.10a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.10a1) (2025-03-19)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.8...0.0.9a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.9...0.0.10a1)
 
 **Merged pull requests:**
 
-- fix: allow latest ovos-config [\#38](https://github.com/OpenVoiceOS/ovos-messagebus/pull/38) ([JarbasAl](https://github.com/JarbasAl))
+- fix: automationss python version [\#40](https://github.com/OpenVoiceOS/ovos-messagebus/pull/40) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
