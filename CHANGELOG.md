@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.11a4](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.11a4) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a3...0.0.11a4)
+
+**Merged pull requests:**
+
+- chore\(deps\): update dependency python to 3.14 [\#45](https://github.com/OpenVoiceOS/ovos-messagebus/pull/45) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.0.11a3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.11a3) (2025-12-19)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a2...0.0.11a3)
