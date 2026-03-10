@@ -5,7 +5,7 @@
 
 **Module:** `ovos_messagebus.event_handler.MessageBusEventHandler`
 
-Tornado `WebSocketHandler` subclass that implements the OVOS message bus. All connected clients share a single class-level connection set; every received message is broadcast to every client.
+Tornado `WebSocketHandler` subclass that implements the OVOS message bus. All connected clients share a single module-level connection list (`client_connections` in `event_handler.py:27`); every received message is broadcast to every client.
 
 ---
 
@@ -27,7 +27,7 @@ Called when a new WebSocket connection is established. Writes a `connected` mess
 
 Called for each incoming WebSocket frame. Broadcasts the raw message string to **all** connections in `client_connections` (including the sender) by calling `write_message()` on each.
 
-When `self.filter` is `True` (read from `mycroft.conf["websocket"]["filter"]`), the message is first deserialized and its type, source, destination, and session are logged — unless the type is in `filter_logs`. This is used for debug monitoring and does not affect delivery.
+When `self.filter` is `True` (read from `mycroft.conf["websocket"]["filter"]`), the message is first deserialized and its type, source, destination, and session are logged — unless the type is in `filter_logs`. If deserialization fails the failure is logged at DEBUG level and the raw frame is still broadcast unchanged. This is used for debug monitoring and does **not** affect delivery.
 
 #### `on_close()`
 

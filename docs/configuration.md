@@ -9,17 +9,20 @@
 
 ```json
 {
+  "ssl": false,
   "websocket": {
     "host": "0.0.0.0",
     "port": 8181,
     "route": "/core",
-    "ssl": false,
     "max_msg_size": 10,
     "filter": false,
     "filter_logs": ["gui.status.request", "gui.page.upload"]
   }
 }
 ```
+
+> **Note:** `ssl` is a **top-level** key in `mycroft.conf`, not nested under `websocket`.
+> `load_message_bus_config()` reads it as `config.get("ssl")` — `load_config.py:46`.
 
 ---
 
@@ -67,8 +70,11 @@ All `ovos-bus-client` connections use the same `route` value from config.
 **Type:** boolean
 **Default:** `false`
 **Source:** `load_config.py` → `MessageBusConfig`
+**Config location:** **top-level** `mycroft.conf["ssl"]` (not under `"websocket"`)
 
 When `true`, the Tornado server starts with SSL/TLS enabled. Requires `ssl_cert` and `ssl_key` paths to also be set (handled by `__main__.py`). When `false`, the server uses plain WebSocket (`ws://`).
+
+The webrockets backend does not support SSL — configure a reverse proxy instead.
 
 ---
 

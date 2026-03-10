@@ -85,12 +85,16 @@ class _FakeServer:
 
 
 _webrockets_stub.WebsocketServer = _FakeServer  # type: ignore[attr-defined]
-sys.modules["webrockets"] = _webrockets_stub
+
+# Install the stub once at module level so the backend import succeeds.
+# Tests that need isolation can pop/restore sys.modules themselves.
+sys.modules.setdefault("webrockets", _webrockets_stub)
 
 # Now import the backend — it will pick up the stub.
 from ovos_messagebus.backends.webrockets_backend import (  # noqa: E402
     _build_server,
     _GLOBAL_ROOM,
+    _wait_for_server_ready,
     main,
     on_ready,
     on_error,
@@ -333,10 +337,25 @@ class TestLifecycleHooks(unittest.TestCase):
             log.info.assert_called_once()
 
 
+class TestWaitForServerReady(unittest.TestCase):
+
+    def test_returns_immediately_when_port_open(self):
+        import socket as _socket
+        with _socket.socket(_socket.AF_INET, _socket.SOCK_STREAM) as srv:
+            srv.bind(("127.0.0.1", 0))
+            srv.listen(1)
+            _, port = srv.getsockname()
+            _wait_for_server_ready("127.0.0.1", port, timeout=1.0)  # must not raise
+
+    def test_times_out_gracefully_when_port_closed(self):
+        """No listening socket — must return (with warning) within timeout."""
+        _wait_for_server_ready("127.0.0.1", 19999, timeout=0.2)  # must not raise
+
+
 class TestMain(unittest.TestCase):
 
     @patch("ovos_messagebus.backends.webrockets_backend.wait_for_exit_signal")
-    @patch("ovos_messagebus.backends.webrockets_backend.time")
+    @patch("ovos_messagebus.backends.webrockets_backend._wait_for_server_ready")
     @patch("ovos_messagebus.backends.webrockets_backend.threading")
     @patch("ovos_messagebus.backends.webrockets_backend._build_server")
     @patch("ovos_messagebus.backends.webrockets_backend.load_message_bus_config")
@@ -351,7 +370,7 @@ class TestMain(unittest.TestCase):
         load_cfg,
         build_srv,
         threading_mock,
-        time_mock,
+        wait_ready_mock,
         wait_exit,
     ):
         cfg_patch.return_value.get.return_value = {}
@@ -366,12 +385,13 @@ class TestMain(unittest.TestCase):
 
         main(ready_hook=ready, error_hook=error, stopping_hook=stopping)
 
+        wait_ready_mock.assert_called_once()
         ready.assert_called_once()
         stopping.assert_called_once()
         error.assert_not_called()
 
     @patch("ovos_messagebus.backends.webrockets_backend.wait_for_exit_signal")
-    @patch("ovos_messagebus.backends.webrockets_backend.time")
+    @patch("ovos_messagebus.backends.webrockets_backend._wait_for_server_ready")
     @patch("ovos_messagebus.backends.webrockets_backend.threading")
     @patch("ovos_messagebus.backends.webrockets_backend._build_server",
            side_effect=RuntimeError("build failed"))
@@ -387,7 +407,7 @@ class TestMain(unittest.TestCase):
         load_cfg,
         build_srv,
         threading_mock,
-        time_mock,
+        wait_ready_mock,
         wait_exit,
     ):
         cfg_patch.return_value.get.return_value = {}

@@ -74,3 +74,35 @@ class TestLoadMessageBusConfig:
     def test_named_tuple_fields(self):
         from ovos_messagebus.load_config import MessageBusConfig
         assert set(MessageBusConfig._fields) == {"host", "port", "route", "ssl"}
+
+    def test_ssl_override_false_takes_precedence_over_true_config(self):
+        """ssl=False override must win even when config has ssl=True."""
+        from ovos_messagebus.load_config import load_message_bus_config
+        cfg_with_ssl = {
+            "websocket": VALID_WS_CONFIG["websocket"],
+            "ssl": True,
+        }
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(cfg_with_ssl)):
+            result = load_message_bus_config(ssl=False)
+        assert result.ssl is False
+
+    def test_ssl_override_true_takes_precedence_over_false_config(self):
+        """ssl=True override must win when config has ssl=False."""
+        from ovos_messagebus.load_config import load_message_bus_config
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(VALID_WS_CONFIG)):
+            result = load_message_bus_config(ssl=True)
+        assert result.ssl is True
+
+    def test_ssl_falls_back_to_config_when_not_overridden(self):
+        """When ssl is not in overrides, value comes from top-level config key."""
+        from ovos_messagebus.load_config import load_message_bus_config
+        cfg_ssl_true = {
+            "websocket": VALID_WS_CONFIG["websocket"],
+            "ssl": True,
+        }
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(cfg_ssl_true)):
+            result = load_message_bus_config()
+        assert result.ssl is True

@@ -107,7 +107,7 @@ DEBUG: <msg_type> source: [...] destination: [...]
 
 Messages listed in `filter_logs` are excluded from the log (default: `["gui.status.request", "gui.page.upload"]`).
 
-Filter mode does **not** affect message delivery — all messages are still broadcast to all clients.
+Filter mode does **not** affect message delivery — all messages are still broadcast to all clients, including malformed or non-OVOS frames that fail deserialization. Deserialization failures are logged at DEBUG level and the raw payload is forwarded unchanged (`MessageBusEventHandler.on_message` — `event_handler.py:61`).
 
 ---
 

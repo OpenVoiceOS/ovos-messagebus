@@ -59,16 +59,18 @@ class MessageBusEventHandler(WebSocketHandler):
             try:
                 deserialized_message = Message.deserialize(message)
             except Exception:
-                return
+                LOG.debug("MessageBusEventHandler: failed to deserialize message for filtering")
+                deserialized_message = None
 
-            if deserialized_message.msg_type not in self.filter_logs:
+            if deserialized_message is not None and deserialized_message.msg_type not in self.filter_logs:
                 LOG.debug(deserialized_message.msg_type +
                           f' source: {deserialized_message.context.get("source", [])}' +
                           f' destination: {deserialized_message.context.get("destination", [])}\n'
                           f'SESSION: {SessionManager.get(deserialized_message).serialize()}')
 
             try:
-                self.emitter.emit(deserialized_message.msg_type, deserialized_message)
+                if deserialized_message is not None:
+                    self.emitter.emit(deserialized_message.msg_type, deserialized_message)
             except Exception as e:
                 LOG.exception(e)
                 traceback.print_exc(file=sys.stdout)

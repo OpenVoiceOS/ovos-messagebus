@@ -51,6 +51,7 @@ Limitations
 
 from __future__ import annotations
 
+import socket
 import threading
 import time
 
@@ -146,7 +147,7 @@ def _build_server(config) -> WebsocketServer:  # noqa: ANN001
                         + f'SESSION: {SessionManager.get(msg).serialize()}'
                     )
             except Exception:
-                pass  # non-OVOS or malformed message — still broadcast it
+                LOG.debug("webrockets: failed to deserialize message for filtering")
 
         # Broadcast to the global room; exclude_self=False ensures the sender
         # also receives its own message, matching Tornado behaviour.
@@ -157,6 +158,18 @@ def _build_server(config) -> WebsocketServer:  # noqa: ANN001
         LOG.debug(f"webrockets: client disconnected (code={code})")
 
     return server
+
+
+def _wait_for_server_ready(host: str, port: int, timeout: float = 5.0) -> None:
+    """Poll until the server socket is accepting connections or timeout expires."""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        try:
+            with socket.create_connection((host, port), timeout=0.1):
+                return
+        except OSError:
+            time.sleep(0.05)
+    LOG.warning("webrockets: server did not become ready within %.1fs", timeout)
 
 
 def on_ready() -> None:
@@ -196,8 +209,7 @@ def main(
 
     t = threading.Thread(target=server.start, daemon=True)
     t.start()
-    # Allow the Rust runtime a moment to bind the socket before advertising ready.
-    time.sleep(0.3)
+    _wait_for_server_ready(config.host, config.port)
     ready_hook()
     wait_for_exit_signal()
     stopping_hook()

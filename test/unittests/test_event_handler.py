@@ -93,6 +93,72 @@ class TestClientConnections:
             event_handler.client_connections.extend(original_connections)
 
 
+class TestOnMessage:
+    """Tests for MessageBusEventHandler.on_message broadcast behaviour."""
+
+    def _make_handler_with_clients(self):
+        from ovos_messagebus import event_handler
+        handler = _make_handler()
+        handler.write_message = MagicMock()
+        # Register handler as the only subscriber
+        original = list(event_handler.client_connections)
+        event_handler.client_connections.clear()
+        event_handler.client_connections.append(handler)
+        return handler, event_handler, original
+
+    def test_filter_false_broadcasts_valid_message(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message('{"type":"test","data":{},"context":{}}')
+            handler.write_message.assert_called_once()
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_filter_true_broadcasts_valid_message(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": True, "filter_logs": []}}
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                with patch("ovos_messagebus.event_handler.Message") as msg_mock:
+                    with patch("ovos_messagebus.event_handler.SessionManager"):
+                        fake_msg = MagicMock()
+                        fake_msg.msg_type = "test.type"
+                        msg_mock.deserialize.return_value = fake_msg
+                        handler.on_message('{"type":"test.type","data":{},"context":{}}')
+            handler.write_message.assert_called_once()
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_filter_true_broadcasts_malformed_json(self):
+        """Malformed frames must still be broadcast even when filter=True."""
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": True, "filter_logs": []}}
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message("not-valid-json")
+            handler.write_message.assert_called_once_with("not-valid-json")
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_filter_true_broadcasts_non_ovos_dict(self):
+        """JSON that parses but lacks OVOS fields must still be broadcast."""
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": True, "filter_logs": []}}
+            payload = '{"hello": "world"}'
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+
 class TestEmit:
     def test_emit_serializable_object(self):
         from ovos_bus_client.message import Message
