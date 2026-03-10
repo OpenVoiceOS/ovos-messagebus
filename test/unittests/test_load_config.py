@@ -16,11 +16,11 @@ from unittest.mock import patch, MagicMock
 
 VALID_WS_CONFIG = {
     "websocket": {
-        "host": "0.0.0.0",
+        "host": "127.0.0.1",
         "port": 8181,
         "route": "/core",
+        "ssl": False,
     },
-    "ssl": False,
 }
 
 
@@ -38,7 +38,7 @@ class TestLoadMessageBusConfig:
                    return_value=_make_config(VALID_WS_CONFIG)):
             result = load_message_bus_config()
 
-        assert result.host == "0.0.0.0"
+        assert result.host == "127.0.0.1"
         assert result.port == 8181
         assert result.route == "/core"
         assert result.ssl is False
@@ -79,8 +79,7 @@ class TestLoadMessageBusConfig:
         """ssl=False override must win even when config has ssl=True."""
         from ovos_messagebus.load_config import load_message_bus_config
         cfg_with_ssl = {
-            "websocket": VALID_WS_CONFIG["websocket"],
-            "ssl": True,
+            "websocket": {**VALID_WS_CONFIG["websocket"], "ssl": True},
         }
         with patch("ovos_messagebus.load_config.Configuration",
                    return_value=_make_config(cfg_with_ssl)):
@@ -95,14 +94,40 @@ class TestLoadMessageBusConfig:
             result = load_message_bus_config(ssl=True)
         assert result.ssl is True
 
-    def test_ssl_falls_back_to_config_when_not_overridden(self):
-        """When ssl is not in overrides, value comes from top-level config key."""
+    def test_ssl_falls_back_to_websocket_config_when_not_overridden(self):
+        """When ssl is not in overrides, value comes from websocket config key."""
         from ovos_messagebus.load_config import load_message_bus_config
         cfg_ssl_true = {
-            "websocket": VALID_WS_CONFIG["websocket"],
-            "ssl": True,
+            "websocket": {**VALID_WS_CONFIG["websocket"], "ssl": True},
         }
         with patch("ovos_messagebus.load_config.Configuration",
                    return_value=_make_config(cfg_ssl_true)):
             result = load_message_bus_config()
         assert result.ssl is True
+
+    def test_ssl_is_read_from_websocket_section_not_top_level(self):
+        """websocket.ssl must be honoured, not a top-level 'ssl' key."""
+        from ovos_messagebus.load_config import load_message_bus_config
+        cfg = {
+            "websocket": {**VALID_WS_CONFIG["websocket"], "ssl": True},
+            "ssl": False,  # top-level decoy value, must NOT be used
+        }
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(cfg)):
+            result = load_message_bus_config()
+        assert result.ssl is True
+
+    def test_ssl_defaults_to_falsy_when_absent(self):
+        """When ssl is absent from both overrides and config, it defaults falsy."""
+        from ovos_messagebus.load_config import load_message_bus_config
+        cfg = {
+            "websocket": {
+                "host": "0.0.0.0",
+                "port": 8181,
+                "route": "/core",
+            },
+        }
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(cfg)):
+            result = load_message_bus_config()
+        assert not result.ssl

@@ -9,20 +9,19 @@
 
 ```json
 {
-  "ssl": false,
   "websocket": {
-    "host": "0.0.0.0",
+    "host": "127.0.0.1",
     "port": 8181,
     "route": "/core",
-    "max_msg_size": 10,
+    "ssl": false,
+    "max_msg_size": 25,
     "filter": false,
     "filter_logs": ["gui.status.request", "gui.page.upload"]
   }
 }
 ```
 
-> **Note:** `ssl` is a **top-level** key in `mycroft.conf`, not nested under `websocket`.
-> `load_message_bus_config()` reads it as `config.get("ssl")` — `load_config.py:46`.
+Defaults are sourced from `ovos_config/mycroft.conf` in the `ovos-config` package.
 
 ---
 
@@ -31,13 +30,13 @@
 ### `host`
 
 **Type:** string
-**Default:** `"0.0.0.0"`
+**Default:** `"127.0.0.1"` (per `ovos_config/mycroft.conf`)
 **Source:** `load_config.py` → `MessageBusConfig`
 
 The network interface the Tornado server binds to.
 
-- `"0.0.0.0"` — accept connections from any interface (default; required when remote services connect over the network)
-- `"127.0.0.1"` — loopback only (restricts to local process connections)
+- `"127.0.0.1"` — loopback only (default; restricts to local process connections — all OVOS services run on the same host)
+- `"0.0.0.0"` — accept connections from any interface (required when HiveMind satellites or remote services connect over the network)
 
 All OVOS services that connect via `ovos-bus-client` read `host` from the same `mycroft.conf` to know where to connect.
 
@@ -69,8 +68,7 @@ All `ovos-bus-client` connections use the same `route` value from config.
 
 **Type:** boolean
 **Default:** `false`
-**Source:** `load_config.py` → `MessageBusConfig`
-**Config location:** **top-level** `mycroft.conf["ssl"]` (not under `"websocket"`)
+**Source:** `load_config.py` → `MessageBusConfig` — read from `mycroft.conf["websocket"]["ssl"]` (`load_config.py:46`)
 
 When `true`, the Tornado server starts with SSL/TLS enabled. Requires `ssl_cert` and `ssl_key` paths to also be set (handled by `__main__.py`). When `false`, the server uses plain WebSocket (`ws://`).
 
@@ -87,10 +85,10 @@ The webrockets backend does not support SSL — configure a reverse proxy instea
 Maximum WebSocket frame size in megabytes. Computed as:
 
 ```python
-config.get("websocket", {}).get("max_msg_size", 10) * 1024 * 1024
+config.get("websocket", {}).get("max_msg_size", 25) * 1024 * 1024
 ```
 
-Messages larger than this limit cause Tornado to close the connection. Increase this value if you are passing large payloads (e.g. base64-encoded images via `gui.page.upload`).
+Default per `ovos_config/mycroft.conf`: `25` MB. Messages larger than this limit cause Tornado to close the connection. Increase this value if you are passing large payloads (e.g. base64-encoded images via `gui.page.upload`).
 
 ---
 
