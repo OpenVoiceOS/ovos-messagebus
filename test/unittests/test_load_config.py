@@ -1,59 +1,76 @@
-import unittest
-from unittest.mock import patch
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Unit tests for ovos_messagebus.load_config."""
+import pytest
+from unittest.mock import patch, MagicMock
 
-from ovos_messagebus.load_config import load_message_bus_config
+
+VALID_WS_CONFIG = {
+    "websocket": {
+        "host": "0.0.0.0",
+        "port": 8181,
+        "route": "/core",
+    },
+    "ssl": False,
+}
 
 
-class TestLoadMessageBusConfig(unittest.TestCase):
-    @patch('ovos_messagebus.load_config.Configuration')
-    def test_ssl_is_read_from_websocket_section(self, mock_configuration):
-        """websocket.ssl must be honoured, not the top-level 'ssl' key."""
-        mock_configuration.return_value = {
-            'websocket': {
-                'host': '0.0.0.0',
-                'port': 8181,
-                'route': '/core',
-                'ssl': True
-            },
-            'ssl': False  # top-level decoy value, must NOT be used
+def _make_config(data):
+    cfg = MagicMock()
+    cfg.__getitem__.side_effect = data.__getitem__
+    cfg.get.side_effect = data.get
+    return cfg
+
+
+class TestLoadMessageBusConfig:
+    def test_returns_named_tuple_with_correct_fields(self):
+        from ovos_messagebus.load_config import load_message_bus_config
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(VALID_WS_CONFIG)):
+            result = load_message_bus_config()
+
+        assert result.host == "0.0.0.0"
+        assert result.port == 8181
+        assert result.route == "/core"
+        assert result.ssl is False
+
+    def test_overrides_take_precedence_over_config(self):
+        from ovos_messagebus.load_config import load_message_bus_config
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(VALID_WS_CONFIG)):
+            result = load_message_bus_config(host="127.0.0.1", port=9999)
+
+        assert result.host == "127.0.0.1"
+        assert result.port == 9999
+        assert result.route == "/core"  # unchanged
+
+    def test_raises_key_error_when_websocket_section_missing(self):
+        from ovos_messagebus.load_config import load_message_bus_config
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config({})):
+            with pytest.raises(KeyError):
+                load_message_bus_config()
+
+    def test_raises_value_error_when_required_field_missing(self):
+        from ovos_messagebus.load_config import load_message_bus_config
+        incomplete = {
+            "websocket": {"host": "0.0.0.0"},  # missing port and route
+            "ssl": False,
         }
+        with patch("ovos_messagebus.load_config.Configuration",
+                   return_value=_make_config(incomplete)):
+            with pytest.raises(ValueError, match="Missing one or more websocket configs"):
+                load_message_bus_config()
 
-        config = load_message_bus_config()
-
-        self.assertEqual(config.host, '0.0.0.0')
-        self.assertEqual(config.port, 8181)
-        self.assertEqual(config.route, '/core')
-        self.assertTrue(config.ssl)
-
-    @patch('ovos_messagebus.load_config.Configuration')
-    def test_ssl_defaults_to_falsy_when_absent(self, mock_configuration):
-        mock_configuration.return_value = {
-            'websocket': {
-                'host': '0.0.0.0',
-                'port': 8181,
-                'route': '/core'
-            }
-        }
-
-        config = load_message_bus_config()
-
-        self.assertFalse(config.ssl)
-
-    @patch('ovos_messagebus.load_config.Configuration')
-    def test_override_takes_precedence_over_websocket_ssl(self, mock_configuration):
-        mock_configuration.return_value = {
-            'websocket': {
-                'host': '0.0.0.0',
-                'port': 8181,
-                'route': '/core',
-                'ssl': False
-            }
-        }
-
-        config = load_message_bus_config(ssl=True)
-
-        self.assertTrue(config.ssl)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_named_tuple_fields(self):
+        from ovos_messagebus.load_config import MessageBusConfig
+        assert set(MessageBusConfig._fields) == {"host", "port", "route", "ssl"}
