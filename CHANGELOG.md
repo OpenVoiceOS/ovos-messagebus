@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.12a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.12a1) (2026-06-06)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a4...0.0.12a1)
+
+**Merged pull requests:**
+
+- fix\(deps\): allow ovos-bus-client 2.x \(widen cap to \<3.0.0\) [\#55](https://github.com/OpenVoiceOS/ovos-messagebus/pull/55) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.0.11a4](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.11a4) (2025-12-19)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a3...0.0.11a4)
