@@ -1,12 +1,20 @@
 # Changelog
 
+## [0.0.13a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.13a2) (2026-06-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.13a1...0.0.13a2)
+
+**Merged pull requests:**
+
+- refactor: migrate packaging to pyproject.toml [\#59](https://github.com/OpenVoiceOS/ovos-messagebus/pull/59) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.0.13a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.13a1) (2026-06-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.12a1...0.0.13a1)
 
 **Merged pull requests:**
 
-- fix: modernize release workflow to shared publish-alpha [\#57](https://github.com/OpenVoiceOS/ovos-messagebus/pull/57) ([JarbasAl](https://github.com/JarbasAl))
+- refactor: migrate packaging to pyproject.toml [\#57](https://github.com/OpenVoiceOS/ovos-messagebus/pull/57) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.0.12a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.12a1) (2026-06-06)
 
