@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos-messagebus"
+dynamic = ["version"]
+description = "ovos-core reference python bus daemon"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [{name = "JarbasAi", email = "jarbasai@mailfence.com"}]
+keywords = ["ovos", "messagebus"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+]
+dependencies = [
+    "tornado~=6.0, >=6.0.3",
+    "ovos_bus_client>=0.0.7,<3.0.0",
+    "ovos-utils>=0.0.37,<1.0.0",
+    "ovos-config>=0.0.12,<3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-messagebus"
+
+[project.scripts]
+ovos-messagebus = "ovos_messagebus.__main__:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["ovos_messagebus*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "ovos_messagebus.version.__version__"}
