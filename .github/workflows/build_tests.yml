@@ -1,16 +1,12 @@
 name: Run Build Tests
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   pull_request:
-    branches:
-      - dev
+    branches: [dev]
   workflow_dispatch:
 
 jobs:
-  py_build_tests:
-    uses: neongeckocom/.github/.github/workflows/python_build_tests.yml@master
-    with:
-      test_pipaudit: true
-      pipaudit_ignored: "GHSA-r9hx-vwmv-q579 PYSEC-2022-43012 GHSA-j8r2-6x86-q33q GHSA-9wx4-h78v-vm56"
+  build_tests:
+    uses: OpenVoiceOS/gh-automations/.github/workflows/build-tests.yml@dev
+    secrets: inherit
