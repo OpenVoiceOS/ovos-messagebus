@@ -19,6 +19,8 @@ processes. It implements a websocket server so can also be used by external
 systems to integrate with the Mycroft system.
 """
 
+import asyncio
+
 from ovos_utils import create_daemon, wait_for_exit_signal
 from ovos_messagebus.load_config import load_message_bus_config
 from ovos_utils.log import LOG, init_service_logger
@@ -40,15 +42,24 @@ def on_stopping():
     LOG.info('Message bus is shutting down...')
 
 
+def _run_bus(config):
+    # Create and set an explicit asyncio event loop for this thread. tornado's
+    # IOLoop relies on there being a current asyncio loop, and asyncio no
+    # longer creates one implicitly via get_event_loop() on newer versions.
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    routes = [(config.route, MessageBusEventHandler)]
+    application = web.Application(routes)
+    application.listen(config.port, config.host)
+    ioloop.IOLoop.current().start()
+
+
 def main(ready_hook=on_ready, error_hook=on_error, stopping_hook=on_stopping):
     reset_sigint_handler()
     init_service_logger("bus")
     LOG.info('Starting message bus service...')
     config = load_message_bus_config()
-    routes = [(config.route, MessageBusEventHandler)]
-    application = web.Application(routes)
-    application.listen(config.port, config.host)
-    create_daemon(ioloop.IOLoop.instance().start)
+    create_daemon(_run_bus, args=(config,))
     ready_hook()
     wait_for_exit_signal()
     stopping_hook()
