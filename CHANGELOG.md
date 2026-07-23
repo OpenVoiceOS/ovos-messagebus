@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.14a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.14a1) (2026-07-23)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.13a2...0.0.14a1)
+
+**Merged pull requests:**
+
+- fix: create asyncio event loop explicitly instead of deprecated implicit get\_event\_loop [\#62](https://github.com/OpenVoiceOS/ovos-messagebus/pull/62) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.0.13a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.13a2) (2026-06-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.13a1...0.0.13a2)
