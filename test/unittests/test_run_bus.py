@@ -60,7 +60,7 @@ class TestRunBusSSL(unittest.TestCase):
         with p1, p2, p3, \
                 patch('ovos_messagebus.__main__.web.Application') as mock_app, \
                 patch('ovos_messagebus.__main__.Configuration') as mock_conf, \
-                patch('ovos_utils.security.create_self_signed_cert') as mock_gen:
+                patch('ovos_messagebus.ssl_utils.create_self_signed_cert') as mock_gen:
             mock_conf.return_value = {'websocket': {}}
             mock_gen.return_value = ('/generated/ovos-messagebus.crt',
                                       '/generated/ovos-messagebus.key')
@@ -82,7 +82,7 @@ class TestRunBusSSL(unittest.TestCase):
         with p1, p2, p3, \
                 patch('ovos_messagebus.__main__.web.Application') as mock_app, \
                 patch('ovos_messagebus.__main__.Configuration') as mock_conf, \
-                patch('ovos_utils.security.create_self_signed_cert',
+                patch('ovos_messagebus.ssl_utils.create_self_signed_cert',
                       side_effect=ImportError):
             mock_conf.return_value = {'websocket': {}}
             mock_application = MagicMock()

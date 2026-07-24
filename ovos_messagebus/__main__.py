@@ -66,7 +66,7 @@ def _get_ssl_options():
         return {"certfile": cert_file, "keyfile": key_file}
 
     try:
-        from ovos_utils.security import create_self_signed_cert
+        from ovos_messagebus.ssl_utils import create_self_signed_cert
     except ImportError as e:
         raise RuntimeError(
             "websocket.ssl is enabled but no ssl_cert/ssl_key are "
