@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-ssl = ["pyopenssl>=23.0.0"]
+ssl = ["cryptography>=3.4"]
 
 [project.urls]
 Homepage = "https://github.com/OpenVoiceOS/ovos-messagebus"

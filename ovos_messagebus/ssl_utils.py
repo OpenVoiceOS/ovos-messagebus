@@ -58,10 +58,10 @@ def create_self_signed_cert(cert_dir: str, name: str = "ovos-messagebus") -> Tup
         (cert_path, key_path) tuple of absolute paths to the PEM files.
 
     Raises:
-        ImportError: if 'cryptography' (installed via the 'pyopenssl'/'ssl'
-            extra) is not available. Callers should treat this as fatal for
-            the ssl:// path rather than falling back to an insecure ws://
-            listener.
+        ImportError: if 'cryptography' (installed via the 'ssl' extra,
+            `pip install "ovos-messagebus[ssl]"`) is not available. Callers
+            should treat this as fatal for the ssl:// path rather than
+            falling back to an insecure ws:// listener.
     """
     from cryptography import x509
     from cryptography.hazmat.primitives import hashes, serialization

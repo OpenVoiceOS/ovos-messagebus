@@ -14,7 +14,7 @@ if HAS_CRYPTOGRAPHY:
     from ovos_messagebus.ssl_utils import create_self_signed_cert
 
 
-@unittest.skipUnless(HAS_CRYPTOGRAPHY, "cryptography (pyopenssl extra) not installed")
+@unittest.skipUnless(HAS_CRYPTOGRAPHY, "cryptography (ssl extra) not installed")
 class TestCreateSelfSignedCert(unittest.TestCase):
     def setUp(self):
         self.cert_dir = tempfile.mkdtemp()

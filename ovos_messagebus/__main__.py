@@ -45,6 +45,18 @@ def on_stopping():
     LOG.info('Message bus is shutting down...')
 
 
+def _missing_cryptography_error(e: ImportError) -> RuntimeError:
+    """Build the RuntimeError raised when a self-signed cert must be
+    generated but 'cryptography' (the 'ssl' extra) isn't installed."""
+    return RuntimeError(
+        "websocket.ssl is enabled but no ssl_cert/ssl_key are "
+        "configured and 'cryptography' is not installed to generate a "
+        "self-signed certificate. Install it with "
+        "'pip install \"ovos-messagebus[ssl]\"' or configure "
+        "websocket.ssl_cert/websocket.ssl_key explicitly."
+    )
+
+
 def _get_ssl_options():
     """Determine the certificate/key pair to serve wss:// with.
 
@@ -53,9 +65,9 @@ def _get_ssl_options():
     generated (or reused, if already present) under XDG_DATA_HOME so it
     survives restarts.
 
-    Raises RuntimeError if `pyopenssl` is required (i.e. a cert must be
-    generated) but not installed - it never silently falls back to
-    plain ws://.
+    Raises RuntimeError if `cryptography` (the `ssl` extra) is required
+    (i.e. a cert must be generated) but not installed - it never silently
+    falls back to plain ws://.
     """
     websocket_config = Configuration().get('websocket', {})
     cert_file = websocket_config.get('ssl_cert')
@@ -68,13 +80,7 @@ def _get_ssl_options():
     try:
         from ovos_messagebus.ssl_utils import create_self_signed_cert
     except ImportError as e:
-        raise RuntimeError(
-            "websocket.ssl is enabled but no ssl_cert/ssl_key are "
-            "configured and 'pyopenssl' is not installed to generate a "
-            "self-signed certificate. Install it with "
-            "'pip install pyopenssl' or configure "
-            "websocket.ssl_cert/websocket.ssl_key explicitly."
-        ) from e
+        raise _missing_cryptography_error(e) from e
 
     cert_dir = os.path.join(str(xdg_data_home()), "OpenVoiceOS",
                              "ovos-messagebus", "certs")
@@ -82,13 +88,7 @@ def _get_ssl_options():
         cert_file, key_file = create_self_signed_cert(cert_dir,
                                                         name="ovos-messagebus")
     except ImportError as e:
-        raise RuntimeError(
-            "websocket.ssl is enabled but no ssl_cert/ssl_key are "
-            "configured and 'pyopenssl' is not installed to generate a "
-            "self-signed certificate. Install it with "
-            "'pip install pyopenssl' or configure "
-            "websocket.ssl_cert/websocket.ssl_key explicitly."
-        ) from e
+        raise _missing_cryptography_error(e) from e
     LOG.info(f'Serving wss:// with self-signed certificate: {cert_file}')
     return {"certfile": cert_file, "keyfile": key_file}
 
