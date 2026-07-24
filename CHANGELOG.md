@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a1) (2026-07-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.0a1...0.2.1a1)
+
+**Merged pull requests:**
+
+- fix: refuse to start the webrockets backend when SSL is configured [\#69](https://github.com/OpenVoiceOS/ovos-messagebus/pull/69) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.0a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.0a1) (2026-07-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.1.0a1...0.2.0a1)
