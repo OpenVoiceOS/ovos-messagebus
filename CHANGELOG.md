@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.0a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.1.0a1) (2026-07-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.15a1...0.1.0a1)
+
+**Merged pull requests:**
+
+- feat: serve wss:// when websocket.ssl is set [\#66](https://github.com/OpenVoiceOS/ovos-messagebus/pull/66) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.0.15a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.15a1) (2026-07-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.14a1...0.0.15a1)
