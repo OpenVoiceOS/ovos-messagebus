@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.0a1) (2026-07-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.1.0a1...0.2.0a1)
+
+**Merged pull requests:**
+
+- feat: webrockets backend + benchmarks [\#51](https://github.com/OpenVoiceOS/ovos-messagebus/pull/51) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.1.0a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.1.0a1) (2026-07-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.15a1...0.1.0a1)
