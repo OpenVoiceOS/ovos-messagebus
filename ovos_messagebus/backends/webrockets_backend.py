@@ -36,15 +36,18 @@ Fan-out to all clients     ✓ (incl.     ✓ (incl.
 (including sender)          sender)      sender)
 Optional msg filtering     ✓            ✓
 max_msg_size config        ✓            ✗ (not exposed in Python API)
-SSL                        ✓            ✗ (not in v0.1.x)
+SSL (server-terminated)    ✓            ✗ (not exposed in Python API)
 Per-handler emitter (.on)  ✓            ✗ (Tornado-specific; not used externally)
 =========================  ===========  ===========
 
 Limitations
 -----------
 * ``max_msg_size`` is silently ignored; large messages are NOT capped.
-* SSL termination must be handled by a reverse proxy (nginx/caddy) when using
-  this backend.
+* This backend does not terminate TLS itself. To serve ``wss://``, either run
+  the Tornado backend (``ovos_messagebus.__main__``), which terminates TLS
+  directly via ``websocket.ssl`` / ``websocket.ssl_cert`` /
+  ``websocket.ssl_key``, or put a TLS-terminating reverse proxy (nginx/caddy)
+  in front of this backend.
 * The internal ``MessageBusEventHandler.on()`` / ``emitter`` API is not
   replicated because it is only used by the Tornado server internally.
 """
@@ -104,9 +107,11 @@ def _build_server(config) -> WebsocketServer:  # noqa: ANN001
 
     if config.ssl:
         LOG.warning(
-            "webrockets backend: SSL is configured in mycroft.conf but is NOT "
-            "supported by webrockets v0.1.x.  Use a reverse proxy for TLS "
-            "termination or switch to the Tornado backend."
+            "webrockets backend: SSL is configured in mycroft.conf but this "
+            "backend does not terminate TLS itself. Switch to the Tornado "
+            "backend (ovos_messagebus.__main__), which serves wss:// "
+            "directly, or put a TLS-terminating reverse proxy in front of "
+            "this backend."
         )
 
     server = WebsocketServer(host=config.host, port=config.port)

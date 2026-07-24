@@ -91,8 +91,8 @@ its own message — identical to the Tornado loop behaviour.
 | Initial `"connected"` message | ✓ | ✓ |
 | Fan-out to all clients (incl. sender) | ✓ | ✓ |
 | Optional message filtering / logging | ✓ | ✓ |
-| `max_msg_size` enforcement | ✓ | ✗ (not exposed in Python API v0.1.x) |
-| SSL / TLS | ✓ | ✗ (use reverse proxy) |
+| `max_msg_size` enforcement | ✓ | ✗ (not exposed in Python API) |
+| SSL / TLS (server-terminated) | ✓ (serves `wss://` directly) | ✗ (use Tornado or a reverse proxy) |
 | `MessageBusEventHandler.on()` emitter | ✓ | ✗ (Tornado-internal; not used externally) |
 | Same `main()` hook signatures | ✓ | ✓ (drop-in) |
 
@@ -101,8 +101,13 @@ its own message — identical to the Tornado loop behaviour.
 * **`max_msg_size`** — the `websocket.max_msg_size` config key is silently
   ignored.  Use a reverse proxy (nginx, caddy) to enforce payload size limits
   if this matters in your deployment.
-* **SSL** — webrockets v0.1.x has no TLS support at the Python layer.
-  Terminate TLS at a reverse proxy and forward plain WebSocket traffic.
+* **SSL** — this backend does not terminate TLS at the Python layer. To serve
+  `wss://`, run the Tornado backend instead — it terminates TLS directly using
+  the `websocket.ssl`, `websocket.ssl_cert`, and `websocket.ssl_key` config
+  keys (generating a self-signed certificate under the XDG data directory
+  when the cert/key are unset). Alternatively, terminate TLS at a reverse
+  proxy (nginx, caddy) in front of this backend and forward plain WebSocket
+  traffic.
 * **`MessageBusEventHandler.on()` / `emitter`** — this Tornado-specific API
   allows other in-process code to subscribe to bus messages via the handler
   object.  It is not replicated by the webrockets backend because no external

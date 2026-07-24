@@ -99,7 +99,10 @@ Execution flow:
 
 1. Call `load_message_bus_config()` to get host/port/route/ssl settings
 2. Build a Tornado `web.Application` mapping `config.route` → `MessageBusEventHandler`
-3. Bind the application to `config.port` / `config.host`
+3. If `config.ssl` is truthy, resolve `ssl_options` from `websocket.ssl_cert`/`websocket.ssl_key`
+   (generating and caching a self-signed certificate under the XDG data directory when unset),
+   then bind the application to `config.port` / `config.host` with those `ssl_options`, serving
+   `wss://`. Otherwise bind it plainly, serving `ws://`.
 4. Start the Tornado `IOLoop` in a **daemon thread**
 5. Block the main thread on `wait_for_exit_signal()` (from `ovos-utils`)
 6. On signal (SIGTERM/SIGINT), the daemon thread exits with the process

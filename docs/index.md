@@ -58,7 +58,8 @@ Configuration is read from `mycroft.conf` under the `websocket` key:
 | `host` | `0.0.0.0` | Bind address |
 | `port` | `8181` | TCP port |
 | `route` | `/core` | WebSocket URL path |
-| `ssl` | `False` | Enable SSL/TLS |
+| `ssl` | `False` | Enable SSL/TLS (Tornado backend serves `wss://` directly) |
+| `ssl_cert` / `ssl_key` | unset | PEM cert/key paths; self-signed pair auto-generated when unset (`ssl` extra) |
 | `max_msg_size` | `10` | Maximum message size in MB |
 
 Example `mycroft.conf` section:
@@ -70,6 +71,8 @@ Example `mycroft.conf` section:
     "port": 8181,
     "route": "/core",
     "ssl": false,
+    "ssl_cert": "",
+    "ssl_key": "",
     "max_msg_size": 10
   }
 }
@@ -98,7 +101,7 @@ benchmark/
 ## Further Reading
 
 - [Server](server.md) — `MessageBusEventHandler`, `load_message_bus_config`, `main()`
-- [Configuration](configuration.md) — Full `mycroft.conf["websocket"]` reference: host, port, route, ssl, max_msg_size, filter, filter_logs
+- [Configuration](configuration.md) — Full `mycroft.conf["websocket"]` reference: host, port, route, ssl, ssl_cert, ssl_key, max_msg_size, filter, filter_logs
 - [Events](events.md) — Message types that flow through the bus and which services publish/consume them
 - [Backends & Benchmarks](backends.md) — webrockets and Rust backends, measured throughput/latency results, how to run comparisons
 

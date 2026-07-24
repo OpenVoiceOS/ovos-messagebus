@@ -14,6 +14,8 @@
     "port": 8181,
     "route": "/core",
     "ssl": false,
+    "ssl_cert": "",
+    "ssl_key": "",
     "max_msg_size": 25,
     "filter": false,
     "filter_logs": ["gui.status.request", "gui.page.upload"]
@@ -70,9 +72,19 @@ All `ovos-bus-client` connections use the same `route` value from config.
 **Default:** `false`
 **Source:** `load_config.py` → `MessageBusConfig` — read from `mycroft.conf["websocket"]["ssl"]` (`load_config.py:46`)
 
-When `true`, the Tornado server starts with SSL/TLS enabled. Requires `ssl_cert` and `ssl_key` paths to also be set (handled by `__main__.py`). When `false`, the server uses plain WebSocket (`ws://`).
+When `true`, the Tornado server starts with SSL/TLS enabled and serves `wss://` directly. When `false`, the server uses plain WebSocket (`ws://`).
 
-The webrockets backend does not support SSL — configure a reverse proxy instead.
+---
+
+### `ssl_cert` / `ssl_key`
+
+**Type:** string (file path)
+**Default:** unset
+**Source:** `__main__.py::_get_ssl_options()` — read from `mycroft.conf["websocket"]["ssl_cert"]` / `["ssl_key"]`
+
+Paths to a PEM certificate and private key used for the Tornado server's TLS listener when `ssl` is `true`. If left unset, a self-signed certificate/key pair is generated automatically (via `ovos_messagebus/ssl_utils.py`, RSA-2048/SHA-256) and cached under the XDG data directory; this requires the `cryptography` package (the `ssl` extra: `pip install "ovos-messagebus[ssl]"`).
+
+The webrockets backend does not terminate TLS itself — it has no cert/key parameters to set. To serve `wss://` use the Tornado backend, or put a TLS-terminating reverse proxy in front of the webrockets backend instead.
 
 ---
 

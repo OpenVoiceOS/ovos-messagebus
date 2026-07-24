@@ -131,7 +131,7 @@ Full detail — latency percentiles, methodology, Rust estimates — in
 | Pure-Python | ✅ | ❌ (Rust extension) | ❌ (separate binary) |
 | Drop-in swap | n/a | ✅ same config | ✅ same port/config |
 | Expected throughput | baseline | ~2–5× | ~5–10× |
-| Supports SSL | ✅ | depends on version | ✅ |
+| Terminates TLS itself (`wss://`) | ✅ | ❌ (use Tornado or a reverse proxy) | depends on version |
 | Maturity | stable | early-stage | early-stage |
 
 For most home/hobbyist OVOS deployments the Tornado server is fast enough.
