@@ -24,9 +24,16 @@ dependencies = [
 
 [project.optional-dependencies]
 ssl = ["cryptography>=3.4"]
+webrockets = ["webrockets>=0.1.5"]
+benchmark = ["websockets>=12.0"]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/OpenVoiceOS/ovos-messagebus"
+Repository = "https://github.com/OpenVoiceOS/ovos-messagebus"
 
 [project.scripts]
 ovos-messagebus = "ovos_messagebus.__main__:main"
