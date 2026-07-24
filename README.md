@@ -4,8 +4,8 @@ messagebus service, the nervous system of OpenVoiceOS
 
 ## Alternative implementations
 
-- [OVOS Bus Server](https://github.com/OpenVoiceOS/ovos-bus-server/) - Alternative C++ messagebus server implementation using WebSocket++
-- [OVOS Rust Messagebus](https://github.com/OscillateLabsLLC/ovos-rust-messagebus) - Alternative Rust messagebus server implementation
+- [ovos-rust-messagebus](https://github.com/OscillateLabsLLC/ovos-rust-messagebus) - Alternative Rust messagebus server implementation
+- [ovos-messagebus-cpp](https://github.com/OpenVoiceOS/ovos-messagebus-cpp) - Alternative C++ messagebus server implementation using WebSocket++  (**archived**)
 
 # Configuration
 
