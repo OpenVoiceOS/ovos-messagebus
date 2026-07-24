@@ -50,13 +50,4 @@ def load_message_bus_config(**overrides):
             LOG.error(error_msg)
             raise ValueError(error_msg)
 
-        if mb_config.ssl:
-            LOG.warning(
-                'websocket.ssl is set, but ovos-messagebus does not '
-                'terminate TLS itself. Clients configured to use wss:// '
-                'will fail to connect to this plain ws:// server. '
-                'Put a TLS-terminating reverse proxy (eg. nginx) in front '
-                'of the message bus if you need encrypted connections.'
-            )
-
     return mb_config
