@@ -106,12 +106,15 @@ def _build_server(config) -> WebsocketServer:  # noqa: ANN001
     )
 
     if config.ssl:
-        LOG.warning(
-            "webrockets backend: SSL is configured in mycroft.conf but this "
-            "backend does not terminate TLS itself. Switch to the Tornado "
-            "backend (ovos_messagebus.__main__), which serves wss:// "
-            "directly, or put a TLS-terminating reverse proxy in front of "
-            "this backend."
+        raise RuntimeError(
+            "webrockets backend: SSL is configured (websocket.ssl is truthy) "
+            "but this backend cannot terminate TLS itself — webrockets "
+            "exposes no cert/key option. Refusing to start and silently "
+            "serve plaintext ws:// while clients dial wss://. Use one of: "
+            "(a) the Tornado backend (ovos_messagebus.__main__), which "
+            "serves wss:// directly via websocket.ssl_cert/ssl_key, or "
+            "(b) a TLS-terminating reverse proxy (nginx/traefik) in front "
+            "of this backend, with websocket.ssl unset for this process."
         )
 
     server = WebsocketServer(host=config.host, port=config.port)
