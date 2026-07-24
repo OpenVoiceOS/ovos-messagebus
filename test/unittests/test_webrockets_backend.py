@@ -158,19 +158,19 @@ class TestBuildServer(unittest.TestCase):
         self.assertIsNotNone(server._route._disconnect_handler)
 
     @patch("ovos_messagebus.backends.webrockets_backend.Configuration")
-    def test_ssl_warning_logged(self, cfg_patch):
+    def test_ssl_configured_raises(self, cfg_patch):
         cfg_patch.return_value.get.return_value = {}
-        with patch("ovos_messagebus.backends.webrockets_backend.LOG") as log:
+        with self.assertRaises(RuntimeError) as ctx:
             _build_server(_make_config(ssl=True))
-            log.warning.assert_called_once()
-            self.assertIn("SSL", log.warning.call_args[0][0])
+        self.assertIn("SSL", str(ctx.exception))
+        self.assertIn("Tornado", str(ctx.exception))
 
     @patch("ovos_messagebus.backends.webrockets_backend.Configuration")
-    def test_no_ssl_warning_when_ssl_off(self, cfg_patch):
+    def test_no_ssl_error_when_ssl_off(self, cfg_patch):
         cfg_patch.return_value.get.return_value = {}
-        with patch("ovos_messagebus.backends.webrockets_backend.LOG") as log:
-            _build_server(_make_config(ssl=None))
-            log.warning.assert_not_called()
+        # Must not raise when SSL is not configured.
+        server = _build_server(_make_config(ssl=None))
+        self.assertIsInstance(server, _FakeServer)
 
     @patch("ovos_messagebus.backends.webrockets_backend.Configuration")
     def test_route_path_strips_leading_slash(self, cfg_patch):
@@ -418,6 +418,37 @@ class TestMain(unittest.TestCase):
             main(error_hook=error)
 
         error.assert_called_once()
+
+    @patch("ovos_messagebus.backends.webrockets_backend.wait_for_exit_signal")
+    @patch("ovos_messagebus.backends.webrockets_backend._wait_for_server_ready")
+    @patch("ovos_messagebus.backends.webrockets_backend.threading")
+    @patch("ovos_messagebus.backends.webrockets_backend.load_message_bus_config")
+    @patch("ovos_messagebus.backends.webrockets_backend.init_service_logger")
+    @patch("ovos_messagebus.backends.webrockets_backend.reset_sigint_handler")
+    @patch("ovos_messagebus.backends.webrockets_backend.Configuration")
+    def test_ssl_configured_raises_and_never_starts_server(
+        self,
+        cfg_patch,
+        reset_sig,
+        init_log,
+        load_cfg,
+        threading_mock,
+        wait_ready_mock,
+        wait_exit,
+    ):
+        """SSL configured against the webrockets backend must fail loudly and
+        must NOT start the (plaintext-only) server."""
+        cfg_patch.return_value.get.return_value = {}
+        load_cfg.return_value = _make_config(ssl=True)
+
+        error = MagicMock()
+        with self.assertRaises(RuntimeError):
+            main(error_hook=error)
+
+        error.assert_called_once()
+        self.assertIn("SSL", error.call_args[0][0])
+        threading_mock.Thread.assert_not_called()
+        wait_ready_mock.assert_not_called()
 
 
 if __name__ == "__main__":
