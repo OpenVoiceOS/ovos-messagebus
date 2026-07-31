@@ -1,11 +1,10 @@
-
 # Configuration
 
-`ovos-messagebus` reads all connection and behaviour settings from `mycroft.conf` under the `websocket` key. The config file is located at `~/.config/mycroft/mycroft.conf` (user) or `/etc/mycroft/mycroft.conf` (system).
+`ovos-messagebus` reads all connection and behavior settings from `mycroft.conf` under the `websocket` key. The config file lives at `~/.config/mycroft/mycroft.conf` (user) or `/etc/mycroft/mycroft.conf` (system).
 
 ---
 
-## Full Reference
+## Full reference
 
 ```json
 {
@@ -23,7 +22,7 @@
 }
 ```
 
-Defaults are sourced from `ovos_config/mycroft.conf` in the `ovos-config` package.
+The defaults come from `ovos_config/mycroft.conf` in the `ovos-config` package.
 
 ---
 
@@ -37,10 +36,10 @@ Defaults are sourced from `ovos_config/mycroft.conf` in the `ovos-config` packag
 
 The network interface the Tornado server binds to.
 
-- `"127.0.0.1"` — loopback only (default; restricts to local process connections — all OVOS services run on the same host)
-- `"0.0.0.0"` — accept connections from any interface (required when HiveMind satellites or remote services connect over the network)
+- `"127.0.0.1"`: loopback only. This is the default. It restricts connections to the local host, since all OVOS services run on the same host.
+- `"0.0.0.0"`: accepts connections from any interface. Use this when HiveMind satellites or remote services connect over the network.
 
-All OVOS services that connect via `ovos-bus-client` read `host` from the same `mycroft.conf` to know where to connect.
+Every OVOS service that connects through `ovos-bus-client` reads `host` from the same `mycroft.conf` to find the bus.
 
 ---
 
@@ -50,7 +49,7 @@ All OVOS services that connect via `ovos-bus-client` read `host` from the same `
 **Default:** `8181`
 **Source:** `load_config.py` → `MessageBusConfig`
 
-TCP port the WebSocket server listens on. The standard OVOS port is `8181`. The `ovos-gui` service uses a separate port (`18181` by default) for its own WebSocket.
+The TCP port the WebSocket server listens on. The standard OVOS port is `8181`. `ovos-gui` uses a separate port (`18181` by default) for its own WebSocket.
 
 ---
 
@@ -60,9 +59,9 @@ TCP port the WebSocket server listens on. The standard OVOS port is `8181`. The 
 **Default:** `"/core"`
 **Source:** `load_config.py` → `MessageBusConfig`
 
-The URL path that `MessageBusEventHandler` is mounted on. The full WebSocket URL becomes `ws://<host>:<port><route>`, e.g. `ws://localhost:8181/core`.
+The URL path `MessageBusEventHandler` mounts on. The full WebSocket URL becomes `ws://<host>:<port><route>`, for example `ws://localhost:8181/core`.
 
-All `ovos-bus-client` connections use the same `route` value from config.
+Every `ovos-bus-client` connection uses the same `route` value from config.
 
 ---
 
@@ -70,7 +69,7 @@ All `ovos-bus-client` connections use the same `route` value from config.
 
 **Type:** boolean
 **Default:** `false`
-**Source:** `load_config.py` → `MessageBusConfig` — read from `mycroft.conf["websocket"]["ssl"]` (`load_config.py:46`)
+**Source:** `load_config.py` → `MessageBusConfig`, read from `mycroft.conf["websocket"]["ssl"]` (`load_config.py:46`)
 
 When `true`, the Tornado server starts with SSL/TLS enabled and serves `wss://` directly. When `false`, the server uses plain WebSocket (`ws://`).
 
@@ -80,11 +79,11 @@ When `true`, the Tornado server starts with SSL/TLS enabled and serves `wss://` 
 
 **Type:** string (file path)
 **Default:** unset
-**Source:** `__main__.py::_get_ssl_options()` — read from `mycroft.conf["websocket"]["ssl_cert"]` / `["ssl_key"]`
+**Source:** `__main__.py::_get_ssl_options()`, read from `mycroft.conf["websocket"]["ssl_cert"]` / `["ssl_key"]`
 
-Paths to a PEM certificate and private key used for the Tornado server's TLS listener when `ssl` is `true`. If left unset, a self-signed certificate/key pair is generated automatically (via `ovos_messagebus/ssl_utils.py`, RSA-2048/SHA-256) and cached under the XDG data directory; this requires the `cryptography` package (the `ssl` extra: `pip install "ovos-messagebus[ssl]"`).
+Paths to a PEM certificate and private key the Tornado server uses for its TLS listener when `ssl` is `true`. If you leave them unset, the server generates a self-signed certificate and key pair automatically (through `ovos_messagebus/ssl_utils.py`, RSA-2048/SHA-256) and caches the pair under the XDG data directory. This requires the `cryptography` package (the `ssl` extra: `pip install "ovos-messagebus[ssl]"`).
 
-The webrockets backend does not terminate TLS itself — it has no cert/key parameters to set. To serve `wss://` use the Tornado backend, or put a TLS-terminating reverse proxy in front of the webrockets backend instead.
+The webrockets backend does not terminate TLS itself. It has no cert or key parameters to set. To serve `wss://`, use the Tornado backend, or put a TLS-terminating reverse proxy in front of the webrockets backend instead.
 
 ---
 
@@ -94,13 +93,13 @@ The webrockets backend does not terminate TLS itself — it has no cert/key para
 **Default:** `10`
 **Source:** `event_handler.py` → `MessageBusEventHandler.max_message_size`
 
-Maximum WebSocket frame size in megabytes. Computed as:
+The maximum WebSocket frame size in megabytes. The server computes it as:
 
 ```python
 config.get("websocket", {}).get("max_msg_size", 25) * 1024 * 1024
 ```
 
-Default per `ovos_config/mycroft.conf`: `25` MB. Messages larger than this limit cause Tornado to close the connection. Increase this value if you are passing large payloads (e.g. base64-encoded images via `gui.page.upload`).
+Default per `ovos_config/mycroft.conf`: `25` MB. Messages larger than this limit cause Tornado to close the connection. Increase this value if you pass large payloads (for example base64-encoded images through `gui.page.upload`).
 
 ---
 
@@ -110,9 +109,9 @@ Default per `ovos_config/mycroft.conf`: `25` MB. Messages larger than this limit
 **Default:** `false`
 **Source:** `event_handler.py` → `MessageBusEventHandler.filter`
 
-When `true`, enables debug logging of all message types before broadcast. Each message logs its type, source list, destination list, and the current session state.
+When `true`, the server enables debug logging of all message types before it broadcasts them. Each log entry shows the message type, source list, destination list, and the current session state.
 
-Messages listed in `filter_logs` are excluded from this log to reduce noise.
+Message types listed in `filter_logs` are excluded from this log to reduce noise.
 
 Enabling `filter` does **not** affect message delivery.
 
@@ -124,15 +123,15 @@ Enabling `filter` does **not** affect message delivery.
 **Default:** `["gui.status.request", "gui.page.upload"]`
 **Source:** `event_handler.py` → `MessageBusEventHandler.filter_logs`
 
-When `filter` is `true`, message types in this list are not logged. The default excludes high-frequency GUI polling messages that would flood the log.
+When `filter` is `true`, the server does not log message types in this list. The default excludes high-frequency GUI polling messages that would flood the log.
 
-Only has an effect when `filter: true`.
+This setting only has an effect when `filter: true`.
 
 ---
 
-## `load_message_bus_config()` Override
+## `load_message_bus_config()` override
 
-The `load_message_bus_config()` function accepts keyword arguments that override values read from `mycroft.conf`. This is used internally by the `main()` entry point to apply command-line arguments:
+`load_message_bus_config()` accepts keyword arguments that override values read from `mycroft.conf`. The `main()` entry point uses this internally to apply command-line arguments:
 
 ```python
 from ovos_messagebus.load_config import load_message_bus_config
@@ -143,8 +142,11 @@ config = load_message_bus_config(port=8182)
 
 ---
 
-## Further Reading
+## Further reading
 
-- [Server](server.md) — `MessageBusEventHandler`, `load_message_bus_config()`, `main()`
-- [Events](events.md) — Message types that flow through the bus
-- [ovos-config](https://github.com/OpenVoiceOS/ovos-config) — `mycroft.conf` location and loading
+- [Server](server.md): `MessageBusEventHandler`, `load_message_bus_config()`, `main()`
+- [Events](events.md): message types that flow through the bus
+- [ovos-config](https://github.com/OpenVoiceOS/ovos-config): `mycroft.conf` location and loading
+
+---
+[← Server](server.md) · [Home](index.md) · [Events →](events.md)
