@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a2) (2026-07-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a1...0.2.1a2)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#71](https://github.com/OpenVoiceOS/ovos-messagebus/pull/71) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a1) (2026-07-24)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.0a1...0.2.1a1)
