@@ -1,15 +1,14 @@
-
 # Server
 
 ## `MessageBusEventHandler`
 
 **Module:** `ovos_messagebus.event_handler.MessageBusEventHandler`
 
-Tornado `WebSocketHandler` subclass that implements the OVOS message bus. All connected clients share a single module-level connection list (`client_connections` in `event_handler.py:27`); every received message is broadcast to every client.
+`MessageBusEventHandler` is a Tornado `WebSocketHandler` subclass that implements the OVOS message bus. All connected clients share a single module-level connection list (`client_connections` in `event_handler.py:27`). The handler broadcasts every received message to every client.
 
 ---
 
-### Module Attributes
+### Module attributes
 
 | Attribute | Type | Description |
 |---|---|---|
@@ -17,17 +16,17 @@ Tornado `WebSocketHandler` subclass that implements the OVOS message bus. All co
 
 ---
 
-### Key Methods
+### Key methods
 
 #### `open()`
 
-Called when a new WebSocket connection is established. Writes a `connected` message (with `context.session.session_id = "default"`) to the new client only, then appends `self` to the module-level `client_connections` list.
+Tornado calls `open()` when a new WebSocket connection opens. The method writes a `connected` message (with `context.session.session_id = "default"`) to the new client only, then appends `self` to the module-level `client_connections` list.
 
 #### `on_message(message)`
 
-Called for each incoming WebSocket frame. Broadcasts the raw message string to **all** connections in `client_connections` (including the sender) by calling `write_message()` on each.
+Tornado calls `on_message()` for each incoming WebSocket frame. The handler broadcasts the raw message string to **all** connections in `client_connections` (including the sender) by calling `write_message()` on each.
 
-When `self.filter` is `True` (read from `mycroft.conf["websocket"]["filter"]`), the message is first deserialized and its type, source, destination, and session are logged — unless the type is in `filter_logs`. If deserialization fails the failure is logged at DEBUG level and the raw frame is still broadcast unchanged. This is used for debug monitoring and does **not** affect delivery.
+When `self.filter` is `True` (read from `mycroft.conf["websocket"]["filter"]`), the handler deserializes the message first and logs its type, source, destination, and session, unless the type is in `filter_logs`. If deserialization fails, the handler logs the failure at DEBUG level and still broadcasts the raw frame unchanged. This filter mode supports debug monitoring only. It does not affect delivery.
 
 #### `on_close()`
 
@@ -35,7 +34,7 @@ Removes the handler from `client_connections` when the connection drops.
 
 #### `check_origin(origin) → bool`
 
-Always returns `True`. OVOS does not enforce CORS/origin checks — any WebSocket client can connect.
+Always returns `True`. OVOS does not enforce CORS or origin checks. Any WebSocket client can connect.
 
 #### `max_message_size` (property)
 
@@ -49,9 +48,9 @@ Default: 10 MB.
 
 ---
 
-### Broadcast Behaviour
+### Broadcast behavior
 
-The bus is a pure fan-out: no routing, no filtering, no topic subscriptions at the server level. Every message every client sends is forwarded to every client. Subscription filtering is handled entirely in the client library (`ovos-bus-client`).
+The bus is a pure fan-out. It does no routing, no filtering, and no topic subscriptions at the server level. The bus forwards every message from every client to every client. Subscription filtering happens entirely in the client library (`ovos-bus-client`).
 
 ---
 
@@ -66,7 +65,7 @@ config = load_message_bus_config()
 # config.host, config.port, config.route, config.ssl
 ```
 
-Reads `mycroft.conf["websocket"]` and returns a `MessageBusConfig` namedtuple:
+`load_message_bus_config()` reads `mycroft.conf["websocket"]` and returns a `MessageBusConfig` namedtuple:
 
 | Field | Source key | Default |
 |---|---|---|
@@ -75,7 +74,7 @@ Reads `mycroft.conf["websocket"]` and returns a `MessageBusConfig` namedtuple:
 | `route` | `route` | `/core` |
 | `ssl` | `ssl` | `False` |
 
-Keyword arguments passed to `load_message_bus_config()` override values from config:
+Keyword arguments passed to `load_message_bus_config()` override values from the config file:
 
 ```python
 config = load_message_bus_config(port=8182)
@@ -97,14 +96,17 @@ main()
 
 Execution flow:
 
-1. Call `load_message_bus_config()` to get host/port/route/ssl settings
-2. Build a Tornado `web.Application` mapping `config.route` → `MessageBusEventHandler`
-3. If `config.ssl` is truthy, resolve `ssl_options` from `websocket.ssl_cert`/`websocket.ssl_key`
+1. Call `load_message_bus_config()` to get the host, port, route, and ssl settings.
+2. Build a Tornado `web.Application` that maps `config.route` to `MessageBusEventHandler`.
+3. If `config.ssl` is truthy, resolve `ssl_options` from `websocket.ssl_cert` and `websocket.ssl_key`
    (generating and caching a self-signed certificate under the XDG data directory when unset),
-   then bind the application to `config.port` / `config.host` with those `ssl_options`, serving
+   then bind the application to `config.port` and `config.host` with those `ssl_options`, serving
    `wss://`. Otherwise bind it plainly, serving `ws://`.
-4. Start the Tornado `IOLoop` in a **daemon thread**
-5. Block the main thread on `wait_for_exit_signal()` (from `ovos-utils`)
-6. On signal (SIGTERM/SIGINT), the daemon thread exits with the process
+4. Start the Tornado `IOLoop` in a **daemon thread**.
+5. Block the main thread on `wait_for_exit_signal()` (from `ovos-utils`).
+6. On signal (SIGTERM or SIGINT), the daemon thread exits with the process.
 
-The daemon thread design means the IOLoop is automatically terminated when the main thread receives a shutdown signal — no explicit cleanup is required.
+Because the IOLoop runs in a daemon thread, it terminates automatically when the main thread receives a shutdown signal. No explicit cleanup step is needed.
+
+---
+[Home](index.md) · [Configuration →](configuration.md)

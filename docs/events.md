@@ -1,15 +1,14 @@
+# Bus events
 
-# Bus Events
+`ovos-messagebus` is a **pure fan-out broker**. It does not publish, filter, or transform any messages. It forwards every message from one client to every connected client, verbatim. This page documents the message types that flow through the bus in a standard OVOS deployment.
 
-`ovos-messagebus` is a **pure fan-out broker**. It does not publish, filter, or transform any messages — every message received from one client is forwarded verbatim to every connected client. This page documents the message types that flow through the bus in a standard OVOS deployment.
-
-The bus itself recognises only one special message type: `connected` (emitted to a new client immediately after it opens a WebSocket connection). All other message types are application-level concerns of the services that connect to the bus.
+The bus itself recognizes only one special message type: `connected` (sent to a new client immediately after it opens a WebSocket connection). Every other message type is an application-level concern of the services that connect to the bus.
 
 ---
 
 ## `connected` (bus → new client only)
 
-Sent by `MessageBusEventHandler.open()` to the newly connected client when the WebSocket handshake completes. Not broadcast to other clients.
+`MessageBusEventHandler.open()` sends this message to the newly connected client when the WebSocket handshake completes. The bus does not broadcast it to other clients.
 
 ```json
 {
@@ -21,11 +20,11 @@ Sent by `MessageBusEventHandler.open()` to the newly connected client when the W
 
 ---
 
-## Message Categories (application-level)
+## Message categories (application-level)
 
-The following categories represent messages that flow through the bus. They are published and consumed by the OVOS services listed below — not by the bus itself.
+The following categories are messages that flow through the bus. The OVOS services listed below publish and consume them. The bus itself does not.
 
-### Core / Intent Pipeline
+### Core / intent pipeline
 
 | Message type | Publisher | Consumers |
 |---|---|---|
@@ -42,7 +41,7 @@ The following categories represent messages that flow through the bus. They are 
 | `mycroft.skill.handler.start` | `ovos-core` | GUI clients |
 | `mycroft.skill.handler.complete` | `ovos-core` | GUI clients |
 
-### GUI Namespace Protocol
+### GUI namespace protocol
 
 | Message type | Publisher | Consumers |
 |---|---|---|
@@ -59,7 +58,7 @@ The following categories represent messages that flow through the bus. They are 
 | `mycroft.device.show.idle` | `ovos-core` | `ovos-shell`, GUI clients |
 | `ovos.homescreen.displayed` | `ovos-skill-homescreen` | `ovos-gui` |
 
-### Homescreen Data (raspOVOS / legacy Qt plugin)
+### Homescreen data (raspOVOS / legacy Qt plugin)
 
 | Message type | Publisher | Consumers |
 |---|---|---|
@@ -83,7 +82,7 @@ The following categories represent messages that flow through the bus. They are 
 | `ovos.common_play.track_info.response` | `ovos-audio` | GUI clients |
 | `gui.player.media.service.sync.status` | `ovos-audio` | `HomescreenManager` |
 
-### PHAL / System
+### PHAL / system
 
 | Message type | Publisher | Consumers |
 |---|---|---|
@@ -96,23 +95,26 @@ The following categories represent messages that flow through the bus. They are 
 
 ---
 
-## Filter / Debug Mode
+## Filter / debug mode
 
-When `mycroft.conf["websocket"]["filter"] = true`, the bus logs each message type and session info before broadcasting:
+When `mycroft.conf["websocket"]["filter"] = true`, the bus logs each message type and session info before it broadcasts the message:
 
 ```
 DEBUG: <msg_type> source: [...] destination: [...]
        SESSION: {...}
 ```
 
-Messages listed in `filter_logs` are excluded from the log (default: `["gui.status.request", "gui.page.upload"]`).
+The bus excludes message types listed in `filter_logs` from this log (default: `["gui.status.request", "gui.page.upload"]`).
 
-Filter mode does **not** affect message delivery — all messages are still broadcast to all clients, including malformed or non-OVOS frames that fail deserialization. Deserialization failures are logged at DEBUG level and the raw payload is forwarded unchanged (`MessageBusEventHandler.on_message` — `event_handler.py:61`).
+Filter mode does **not** affect message delivery. The bus still broadcasts every message to every client, including malformed or non-OVOS frames that fail deserialization. It logs deserialization failures at DEBUG level and forwards the raw payload unchanged (`MessageBusEventHandler.on_message`, `event_handler.py:61`).
 
 ---
 
-## Further Reading
+## Further reading
 
-- [Server](server.md) — `MessageBusEventHandler` implementation
-- [Configuration](configuration.md) — `filter`, `filter_logs`, and all connection settings
-- [ovos-bus-client](https://github.com/OpenVoiceOS/ovos-bus-client) — client library used by all services
+- [Server](server.md): `MessageBusEventHandler` implementation
+- [Configuration](configuration.md): `filter`, `filter_logs`, and all connection settings
+- [ovos-bus-client](https://github.com/OpenVoiceOS/ovos-bus-client): client library used by all services
+
+---
+[← Configuration](configuration.md) · [Home](index.md) · [Backends & Benchmarks →](backends.md)
