@@ -52,32 +52,12 @@ The server reads its connection settings from `mycroft.conf` (the `websocket` se
 
 ## Configuration
 
-The server reads its configuration from `mycroft.conf` under the `websocket` key:
-
-| Key | Default | Description |
-|---|---|---|
-| `host` | `0.0.0.0` | Bind address |
-| `port` | `8181` | TCP port |
-| `route` | `/core` | WebSocket URL path |
-| `ssl` | `False` | Enable SSL/TLS (the Tornado backend serves `wss://` directly) |
-| `ssl_cert` / `ssl_key` | unset | PEM cert/key paths. The server generates a self-signed pair when unset (`ssl` extra) |
-| `max_msg_size` | `10` | Maximum message size in MB |
-
-Example `mycroft.conf` section:
-
-```json
-{
-  "websocket": {
-    "host": "0.0.0.0",
-    "port": 8181,
-    "route": "/core",
-    "ssl": false,
-    "ssl_cert": "",
-    "ssl_key": "",
-    "max_msg_size": 10
-  }
-}
-```
+The server reads its configuration from `mycroft.conf` under the `websocket` key. The shipped default
+`host` is `127.0.0.1`. Keep it that way: only set `0.0.0.0` if you fully control the network, and never
+port-forward 8181. See the manual's
+[Bus Service](https://tigregotico.github.io/ovos-technical-manual/bus-service/) page for the security
+rationale, and [docs/configuration.md](configuration.md) in this repo for the full per-key reference
+(defaults, source citations, `max_msg_size` behavior).
 
 ---
 

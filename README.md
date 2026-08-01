@@ -22,29 +22,11 @@ Or run it as a module:
 python -m ovos_messagebus
 ```
 
-The server reads its connection settings from `mycroft.conf` under the `websocket` key:
-
-```javascript
-{
-  // The mycroft-core messagebus websocket
-  "websocket": {
-    "host": "0.0.0.0",
-    "port": 8181,
-    "route": "/core",
-    "ssl": false,
-    // in mycroft-core all skills share a bus, this allows malicious skills
-    // to manipulate it and affect other skills, this option ensures each skill
-    // gets its own websocket connection
-    "shared_connection": true,
-    // filter out messages of certain types from the bus logs
-    "filter": false,
-    // which messages to filter if filter is enabled
-    "filter_logs": ["gui.status.request", "gui.page.upload"]
-  }
-}
-```
-
-See [docs/configuration.md](docs/configuration.md) for the full list of options, [docs/server.md](docs/server.md) for the server internals, and [docs/events.md](docs/events.md) for the message types that flow through the bus.
+The server reads its connection settings from `mycroft.conf` under the `websocket` key. The shipped
+default `host` is `127.0.0.1`; keep it that way unless you fully control the network (see the manual's
+[Bus Service](https://tigregotico.github.io/ovos-technical-manual/bus-service/) page for why). See
+[docs/configuration.md](docs/configuration.md) for the full list of options, [docs/server.md](docs/server.md)
+for the server internals, and [docs/events.md](docs/events.md) for the message types that flow through the bus.
 
 ## Alternative implementations
 
