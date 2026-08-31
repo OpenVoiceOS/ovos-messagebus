@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1a3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a3) (2026-08-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a2...0.2.1a3)
+
+**Merged pull requests:**
+
+- docs: cross-link the technical manual [\#73](https://github.com/OpenVoiceOS/ovos-messagebus/pull/73) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.1a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a2) (2026-07-31)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a1...0.2.1a2)
