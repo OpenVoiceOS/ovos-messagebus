@@ -1,12 +1,120 @@
 # Changelog
 
-## [0.0.10a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.10a1) (2025-03-19)
+## [0.2.1a4](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a4) (2026-09-10)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.9...0.0.10a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a3...0.2.1a4)
 
 **Merged pull requests:**
 
-- fix: automationss python version [\#40](https://github.com/OpenVoiceOS/ovos-messagebus/pull/40) ([JarbasAl](https://github.com/JarbasAl))
+- build: allow ovos-config 3.x [\#77](https://github.com/OpenVoiceOS/ovos-messagebus/pull/77) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.1a3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a3) (2026-08-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a2...0.2.1a3)
+
+**Merged pull requests:**
+
+- docs: cross-link the technical manual [\#73](https://github.com/OpenVoiceOS/ovos-messagebus/pull/73) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.1a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a2) (2026-07-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a1...0.2.1a2)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#71](https://github.com/OpenVoiceOS/ovos-messagebus/pull/71) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a1) (2026-07-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.0a1...0.2.1a1)
+
+**Merged pull requests:**
+
+- fix: refuse to start the webrockets backend when SSL is configured [\#69](https://github.com/OpenVoiceOS/ovos-messagebus/pull/69) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.0a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.0a1) (2026-07-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.1.0a1...0.2.0a1)
+
+**Merged pull requests:**
+
+- feat: webrockets backend + benchmarks [\#51](https://github.com/OpenVoiceOS/ovos-messagebus/pull/51) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.1.0a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.1.0a1) (2026-07-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.15a1...0.1.0a1)
+
+**Merged pull requests:**
+
+- feat: serve wss:// when websocket.ssl is set [\#66](https://github.com/OpenVoiceOS/ovos-messagebus/pull/66) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.15a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.15a1) (2026-07-24)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.14a1...0.0.15a1)
+
+**Merged pull requests:**
+
+- fix: read ssl from the websocket config section [\#64](https://github.com/OpenVoiceOS/ovos-messagebus/pull/64) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.14a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.14a1) (2026-07-23)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.13a2...0.0.14a1)
+
+**Merged pull requests:**
+
+- fix: create asyncio event loop explicitly instead of deprecated implicit get\_event\_loop [\#62](https://github.com/OpenVoiceOS/ovos-messagebus/pull/62) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.13a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.13a2) (2026-06-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.13a1...0.0.13a2)
+
+**Merged pull requests:**
+
+- refactor: migrate packaging to pyproject.toml [\#59](https://github.com/OpenVoiceOS/ovos-messagebus/pull/59) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.13a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.13a1) (2026-06-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.12a1...0.0.13a1)
+
+**Merged pull requests:**
+
+- refactor: migrate packaging to pyproject.toml [\#57](https://github.com/OpenVoiceOS/ovos-messagebus/pull/57) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.12a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.12a1) (2026-06-06)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a4...0.0.12a1)
+
+**Merged pull requests:**
+
+- fix\(deps\): allow ovos-bus-client 2.x \(widen cap to \<3.0.0\) [\#55](https://github.com/OpenVoiceOS/ovos-messagebus/pull/55) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.11a4](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.11a4) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a3...0.0.11a4)
+
+**Merged pull requests:**
+
+- chore\(deps\): update dependency python to 3.14 [\#45](https://github.com/OpenVoiceOS/ovos-messagebus/pull/45) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.0.11a3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.11a3) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a2...0.0.11a3)
+
+**Merged pull requests:**
+
+- chore\(deps\): update actions/setup-python action to v6 [\#49](https://github.com/OpenVoiceOS/ovos-messagebus/pull/49) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.0.11a2](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.11a2) (2025-12-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.11a1...0.0.11a2)
+
+**Merged pull requests:**
+
+- chore: Configure Renovate [\#44](https://github.com/OpenVoiceOS/ovos-messagebus/pull/44) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.0.11a1](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.0.11a1) (2025-06-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.0.10...0.0.11a1)
 
 
 
