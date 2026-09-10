@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1a4](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a4) (2026-09-10)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a3...0.2.1a4)
+
+**Merged pull requests:**
+
+- build: allow ovos-config 3.x [\#77](https://github.com/OpenVoiceOS/ovos-messagebus/pull/77) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.1a3](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a3) (2026-08-31)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a2...0.2.1a3)
