@@ -55,7 +55,7 @@ The server reads its connection settings from `mycroft.conf` (the `websocket` se
 The server reads its configuration from `mycroft.conf` under the `websocket` key. The shipped default
 `host` is `127.0.0.1`. Keep it that way: only set `0.0.0.0` if you fully control the network, and never
 port-forward 8181. See the manual's
-[Bus Service](https://tigregotico.github.io/ovos-technical-manual/bus-service/) page for the security
+[Bus Service](https://openvoiceos.github.io/beta-technical-manual/bus-service/) page for the security
 rationale, and [docs/configuration.md](configuration.md) in this repo for the full per-key reference
 (defaults, source citations, `max_msg_size` behavior).
 
