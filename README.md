@@ -24,7 +24,7 @@ python -m ovos_messagebus
 
 The server reads its connection settings from `mycroft.conf` under the `websocket` key. The shipped
 default `host` is `127.0.0.1`; keep it that way unless you fully control the network (see the manual's
-[Bus Service](https://tigregotico.github.io/ovos-technical-manual/bus-service/) page for why). See
+[Bus Service](https://openvoiceos.github.io/beta-technical-manual/bus-service/) page for why). See
 [docs/configuration.md](docs/configuration.md) for the full list of options, [docs/server.md](docs/server.md)
 for the server internals, and [docs/events.md](docs/events.md) for the message types that flow through the bus.
 
