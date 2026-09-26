@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1a6](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a6) (2026-09-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a5...0.2.1a6)
+
+**Merged pull requests:**
+
+- Reject malformed session carriers on ingress \(OVOS-SESSION-1 §2.5\) [\#75](https://github.com/OpenVoiceOS/ovos-messagebus/pull/75) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.1a5](https://github.com/OpenVoiceOS/ovos-messagebus/tree/0.2.1a5) (2026-09-18)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-messagebus/compare/0.2.1a4...0.2.1a5)
