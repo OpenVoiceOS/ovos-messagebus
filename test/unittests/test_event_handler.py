@@ -159,6 +159,156 @@ class TestOnMessage:
             event_handler.client_connections.extend(original)
 
 
+class TestRejectMalformedCarrier:
+    """OVOS-SESSION-1 §2.5: a `session` value that is present but not a
+    JSON object is a malformed carrier and must be dropped, not relayed."""
+
+    def _make_handler_with_clients(self):
+        from ovos_messagebus import event_handler
+        handler = _make_handler()
+        handler.write_message = MagicMock()
+        original = list(event_handler.client_connections)
+        event_handler.client_connections.clear()
+        event_handler.client_connections.append(handler)
+        return handler, event_handler, original
+
+    def test_malformed_session_string_is_dropped_and_rejected(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "ovos.utterance.handle", "data": {},
+                                   "context": {"session": "not-an-object"}})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once()
+            sent = json.loads(handler.write_message.call_args[0][0])
+            assert sent["type"] == "ovos.session.rejected"
+            assert sent["data"] == {"msg_type": "ovos.utterance.handle",
+                                     "reason": "malformed_carrier"}
+            assert "session" not in sent["context"]
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_malformed_session_carries_utterance_id(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "recognizer_loop:utterance", "data": {},
+                                   "context": {"session": 42,
+                                               "utterance_id": "abc-123"}})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            sent = json.loads(handler.write_message.call_args[0][0])
+            assert sent["context"]["utterance_id"] == "abc-123"
+            assert "session" not in sent["context"]
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_null_session_is_relayed_untouched(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "test", "data": {},
+                                   "context": {"session": None}})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_absent_session_is_relayed_untouched(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "test", "data": {}, "context": {}})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_dict_session_is_relayed_untouched(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "test", "data": {},
+                                   "context": {"session": {"session_id": "s1"}}})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+
+class TestNonDictContextIsRelayed:
+    """A non-dict `context` must never crash on_message; it is relayed
+    byte-for-byte, same as dev's pre-§2.5 behaviour."""
+
+    def _make_handler_with_clients(self):
+        from ovos_messagebus import event_handler
+        handler = _make_handler()
+        handler.write_message = MagicMock()
+        original = list(event_handler.client_connections)
+        event_handler.client_connections.clear()
+        event_handler.client_connections.append(handler)
+        return handler, event_handler, original
+
+    def test_string_context_is_relayed(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "test", "data": {},
+                                   "context": "session_data"})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_list_context_is_relayed(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "test", "data": {},
+                                   "context": ["session"]})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_int_context_is_relayed(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = json.dumps({"type": "test", "data": {}, "context": 5})
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+    def test_invalid_json_is_relayed(self):
+        handler, event_handler, original = self._make_handler_with_clients()
+        try:
+            ws_cfg = {"websocket": {"filter": False}}
+            payload = "not-valid-json"
+            with patch("ovos_messagebus.event_handler.Configuration", return_value=ws_cfg):
+                handler.on_message(payload)
+            handler.write_message.assert_called_once_with(payload)
+        finally:
+            event_handler.client_connections.clear()
+            event_handler.client_connections.extend(original)
+
+
 class TestEmit:
     def test_emit_serializable_object(self):
         from ovos_bus_client.message import Message
