@@ -43,7 +43,7 @@ def load_message_bus_config(**overrides):
             host=overrides.get('host') or websocket_configs.get('host'),
             port=overrides.get('port') or websocket_configs.get('port'),
             route=overrides.get('route') or websocket_configs.get('route'),
-            ssl=overrides.get('ssl') or config.get('ssl')
+            ssl=overrides['ssl'] if 'ssl' in overrides else websocket_configs.get('ssl')
         )
         if not all([mb_config.host, mb_config.port, mb_config.route]):
             error_msg = 'Missing one or more websocket configs'
