@@ -56,6 +56,8 @@ class MessageBusEventHandler(WebSocketHandler):
             parsed = json.loads(message)
         except Exception:
             return False
+        if not isinstance(parsed, dict):
+            return False
         context = parsed.get("context")
         if not isinstance(context, dict):
             return False

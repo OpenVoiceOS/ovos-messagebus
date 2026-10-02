@@ -25,8 +25,13 @@ from ovos_bus_client.client import MessageBusClient
 from ovos_bus_client.message import Message
 
 from ovos_messagebus.__main__ import _run_bus
+from ovos_messagebus.event_handler import MessageBusEventHandler
 
 FakeConfig = namedtuple('FakeConfig', ['host', 'port', 'route', 'ssl'])
+
+# valid JSON whose top level is not an object, so json.loads does not
+# return a dict for any of them
+NON_OBJECT_JSON_FRAMES = ["[1, 2]", '"hello"', "42", "true", "null"]
 
 
 def _free_port() -> int:
@@ -122,6 +127,51 @@ class TestMalformedCarrierIntegration(unittest.TestCase):
                 ws_a.close()
         finally:
             client_b.close()
+
+
+    def _assert_not_session_rejection(self, raw_frame):
+        parsed = json.loads(raw_frame)
+        if isinstance(parsed, dict) and \
+                parsed.get("type") == "ovos.session.rejected":
+            self.fail(f"unexpected ovos.session.rejected frame: {raw_frame}")
+
+    def test_non_object_json_frames_relay_and_connection_survives(self):
+        ws_b = self._new_raw_ws()
+        ws_b.settimeout(5)
+        self.assertEqual(json.loads(ws_b.recv())["type"], "connected")
+        ws_a = self._new_raw_ws()
+        ws_a.settimeout(5)
+        self.assertEqual(json.loads(ws_a.recv())["type"], "connected")
+        try:
+            for i, frame in enumerate(NON_OBJECT_JSON_FRAMES):
+                with self.subTest(frame=frame):
+                    ws_a.send(frame)
+                    relayed_to_b = ws_b.recv()
+                    relayed_to_a = ws_a.recv()
+                    self.assertEqual(relayed_to_b, frame)
+                    self.assertEqual(relayed_to_a, frame)
+                    self._assert_not_session_rejection(relayed_to_b)
+                    self._assert_not_session_rejection(relayed_to_a)
+                    # a well-formed frame on the same socket still relays
+                    followup = Message(f"nonobject.roundtrip.{i}",
+                                       data={"n": i}).serialize()
+                    ws_a.send(followup)
+                    self.assertEqual(ws_b.recv(), followup)
+                    self.assertEqual(ws_a.recv(), followup)
+        finally:
+            ws_a.close()
+            ws_b.close()
+
+
+class TestNonObjectCarrierGuard(unittest.TestCase):
+    """The carrier guard treats valid non-object JSON as not rejected."""
+
+    def test_guard_returns_false_for_non_object_json(self):
+        for frame in NON_OBJECT_JSON_FRAMES:
+            with self.subTest(frame=frame):
+                rejected = MessageBusEventHandler._reject_malformed_carrier(
+                    None, frame)
+                self.assertFalse(rejected)
 
 
 if __name__ == '__main__':
